@@ -43,20 +43,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintGuide_end="20dp" />
     <!-- sign in btn -->
-    <!-- sign up btn -->
 
-    <Button
+    <ImageView
         android:id="@+id/login_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="580dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/ic_login_btn"
-        android:elevation="48dp"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.47"
@@ -64,11 +62,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
+    <ImageView
         android:id="@+id/sign_up_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="650dp"
