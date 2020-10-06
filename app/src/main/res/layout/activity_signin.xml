@@ -47,7 +47,7 @@
 
     <!-- password txt bx -->
 
-    <ImageView
+    <Button
         android:id="@+id/login_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="1.0" />
 
-    <ImageView
+    <Button
         android:id="@+id/sign_up_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
@@ -82,9 +82,27 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="1.0" />
-
     <ImageView
         android:id="@+id/email_txt_b"
+        android:layout_width="345.43dp"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="365dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ic_sign_in_text_box"
+        app:layout_constraintBottom_toTopOf="@+id/password_tx"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <ImageView
+        android:id="@+id/password_tx"
         android:layout_width="345.43dp"
         android:layout_height="56dp"
         android:layout_alignParentLeft="true"
@@ -95,24 +113,6 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/ic_sign_in_text_box"
         app:layout_constraintBottom_toTopOf="@+id/forgot_pass"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/password_tx"
-        android:layout_width="345.43dp"
-        android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="365dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/ic_sign_in_text_box"
-        app:layout_constraintBottom_toTopOf="@+id/email_txt_b"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -159,9 +159,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/password_tx"
-        app:layout_constraintStart_toStartOf="@+id/password_tx"
-        app:layout_constraintTop_toTopOf="@+id/password_tx"
+        app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
+        app:layout_constraintStart_toStartOf="@+id/email_txt_b"
+        app:layout_constraintTop_toTopOf="@+id/email_txt_b"
         app:srcCompat="@drawable/ic_mail_icon" />
 
     <ImageView
@@ -171,9 +171,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
-        app:layout_constraintStart_toStartOf="@+id/email_txt_b"
-        app:layout_constraintTop_toTopOf="@+id/email_txt_b"
+        app:layout_constraintBottom_toBottomOf="@+id/password_tx"
+        app:layout_constraintStart_toStartOf="@+id/password_tx"
+        app:layout_constraintTop_toTopOf="@+id/password_tx"
         app:srcCompat="@drawable/ic_lock_icon" />
 
     <ImageView
@@ -207,6 +207,42 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="0.375"
         app:srcCompat="@drawable/ic_welcom_msg" />
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="276dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:ems="10"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
+        app:layout_constraintEnd_toEndOf="@+id/email_txt_b"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/mail_icon"
+        app:layout_constraintTop_toTopOf="@+id/email_txt_b"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editTextCode"
+        android:layout_width="276dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:ems="10"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/password_tx"
+        app:layout_constraintEnd_toEndOf="@+id/password_tx"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toEndOf="@+id/lock_icon"
+        app:layout_constraintTop_toTopOf="@+id/password_tx"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
