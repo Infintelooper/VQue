@@ -1,5 +1,6 @@
 package com.cleancodec.vque
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
+import kotlinx.android.synthetic.main.activity_signin.login_btn
+import kotlinx.android.synthetic.main.activity_signin.sign_up_btn
 import java.util.concurrent.TimeUnit
 import kotlin.math.log
 
@@ -37,6 +41,19 @@ class signin : AppCompatActivity() {
 
             sentVerificationCode()
             //verifySignInCode()
+        }
+
+        //for shift to home screen
+        arrow_back.setOnClickListener()
+        {
+            val intent = Intent(this@signin, home::class.java)
+            startActivity(intent)
+        }
+        //for shift to signup screen
+        sign_up_btn.setOnClickListener()
+        {
+            val intent = Intent(this@signin, signup::class.java)
+            startActivity(intent)
         }
     }
 
