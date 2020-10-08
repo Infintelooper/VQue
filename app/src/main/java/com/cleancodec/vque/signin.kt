@@ -56,17 +56,19 @@ class signin : AppCompatActivity() {
                     progressBarPhone.visibility = View.VISIBLE
                     textViewTimer.visibility = View.VISIBLE
                     // timer code start
-                    var count = 59;
+                    var count = 61;
                     textViewTimer.text = count.toString()
                     var timer = object: CountDownTimer(60000, 1000) {
                         override fun onTick(millisUntilFinished: Long) {
                             editTextPhone.isEnabled = false
+                            sign_up_btn.isEnabled = false
                             count--
                             textViewTimer.text = count.toString()
                         }
 
                         override fun onFinish() {
                             editTextPhone.isEnabled = true
+                            sign_up_btn.isEnabled = true
                             progressBarPhone.visibility = View.INVISIBLE
                             textViewTimer.visibility = View.INVISIBLE
                         }
@@ -87,7 +89,7 @@ class signin : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(editTextCode.text.toString().length == 6) {
+                if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
 
                     verifySignInCode()
                 }
@@ -96,7 +98,9 @@ class signin : AppCompatActivity() {
 
         //setup click listener for signin_btn
         login_btn.setOnClickListener() {
-            verifySignInCode()
+            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
+                verifySignInCode()
+            }
         }
 
         //for shift to home screen
@@ -133,6 +137,7 @@ class signin : AppCompatActivity() {
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         Toast.makeText(this@signin, "Incorrect verification code", Toast.LENGTH_SHORT).show()
+                        editTextCode.text.clear()
                     }
                 }
             }
