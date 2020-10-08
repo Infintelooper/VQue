@@ -3,9 +3,14 @@ package com.cleancodec.vque
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -35,12 +40,49 @@ class signin : AppCompatActivity() {
 
         //initilize mAuth
         mAuth = FirebaseAuth.getInstance()
+        //----------
 
+        editTextPhone.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if(editTextPhone.text.toString().length == 10) {
+                    progressBarPhone.visibility = View.VISIBLE
+                    textViewTimer.visibility = View.VISIBLE
+                    // timer code start
+                    var count = 59;
+                    textViewTimer.text = count.toString()
+                    var timer = object: CountDownTimer(60000, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            editTextPhone.isEnabled = false
+                            count--
+                            textViewTimer.text = count.toString()
+                        }
+
+                        override fun onFinish() {
+                            editTextPhone.isEnabled = true
+                            progressBarPhone.visibility = View.INVISIBLE
+                            textViewTimer.visibility = View.INVISIBLE
+                        }
+                    }
+                    timer.start()
+                    //timer code end
+                    sentVerificationCode()
+                }
+            }
+        })
+
+
+        //----------
         //setup click listener for signin_btn
         login_btn.setOnClickListener() {
-
-            sentVerificationCode()
-            //verifySignInCode()
+            verifySignInCode()
         }
 
         //for shift to home screen
@@ -70,7 +112,10 @@ class signin : AppCompatActivity() {
 
                     //on login successfull activity
                     Toast.makeText(this@signin, "Login Successfull", Toast.LENGTH_SHORT).show()
-
+                    //start code for move to landing page
+                    val intent = Intent(this@signin, landing::class.java)
+                    startActivity(intent)
+                    //end code
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         Toast.makeText(this@signin, "Incorrect verification code", Toast.LENGTH_SHORT).show()

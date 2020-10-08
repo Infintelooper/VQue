@@ -163,6 +163,7 @@
         app:srcCompat="@drawable/ic_mail_icon" />
 
 
+
     <ImageView
         android:id="@+id/arrow_back"
         android:layout_width="wrap_content"
@@ -291,6 +292,7 @@
         app:layout_constraintTop_toTopOf="@+id/email_txt_b"
         tools:targetApi="p"
         tools:ignore="HardcodedText" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

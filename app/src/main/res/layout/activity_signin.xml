@@ -100,6 +100,20 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="0.857" />
+    <ProgressBar
+        android:id="@+id/progressBarPhone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="41dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextPhone"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPhone"
+        app:layout_constraintTop_toTopOf="@+id/editTextPhone"
+        app:layout_constraintVertical_bias="0.333" />
+
 
     <ImageView
         android:id="@+id/password_txt_b"
@@ -246,6 +260,16 @@
         app:layout_constraintTop_toTopOf="@+id/email_txt_b"
         tools:targetApi="p"
         tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textViewTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarPhone"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarPhone"
+        app:layout_constraintStart_toStartOf="@+id/progressBarPhone"
+        app:layout_constraintTop_toTopOf="@+id/progressBarPhone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
