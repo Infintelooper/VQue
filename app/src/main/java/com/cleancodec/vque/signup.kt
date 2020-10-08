@@ -40,6 +40,10 @@ class signup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
+        //disable number and code
+        editTextPhone.isEnabled = false
+        editTextCode.isEnabled = false
+
         //for shift to home screen
         arrow_back.setOnClickListener()
         {
@@ -71,7 +75,7 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if (editTextPhone.text.toString().length == 10) {
+                if (editTextPhone.text.toString().length == 10 && editTextName.text.toString().length >= 3) {
                     //closeKeyBoard() // close keyboard
                     progressBarPhone.visibility = View.VISIBLE
                     textViewTimer.visibility = View.VISIBLE
@@ -113,16 +117,53 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
+                if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >=3 ) {
 
                     verifySignInCode()
                 }
             }
         })
+        editTextName.addTextChangedListener(object : TextWatcher {
 
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if(editTextName.text.toString().length >=3) {
+                    editTextPhone.isEnabled = true;
+                }
+            }
+        })
+        editTextPhone.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if(editTextPhone.text.toString().length == 10) {
+                    editTextCode.isEnabled = true;
+                }
+            }
+        })
         //setup click listener for signin_btn
         sign_up_btn.setOnClickListener {
-            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
+            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >=3 ) {
                 verifySignInCode()
             }
         }
@@ -173,6 +214,18 @@ class signup : AppCompatActivity() {
         {
             editTextPhone.error = "phone number is required"
             editTextPhone.requestFocus()
+            return
+        }
+        if(editTextName.text.toString().isEmpty())
+        {
+            editTextName.error = "name is required"
+            editTextName.requestFocus()
+            return
+        }
+        if(editTextName.text.toString().length <=3)
+        {
+            editTextName.error = "please enter full name"
+            editTextName.requestFocus()
             return
         }
         if(phone.length != 10 )

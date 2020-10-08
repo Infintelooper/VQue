@@ -19,8 +19,14 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
+import kotlinx.android.synthetic.main.activity_signin.arrow_back
+import kotlinx.android.synthetic.main.activity_signin.editTextCode
+import kotlinx.android.synthetic.main.activity_signin.editTextPhone
 import kotlinx.android.synthetic.main.activity_signin.login_btn
+import kotlinx.android.synthetic.main.activity_signin.progressBarPhone
 import kotlinx.android.synthetic.main.activity_signin.sign_up_btn
+import kotlinx.android.synthetic.main.activity_signin.textViewTimer
+import kotlinx.android.synthetic.main.activity_signup.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.log
 
@@ -95,7 +101,25 @@ class signin : AppCompatActivity() {
                 }
             }
         })
+        editTextPhone.addTextChangedListener(object : TextWatcher {
 
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if(editTextPhone.text.toString().length == 10) {
+                    editTextCode.isEnabled = true;
+                }
+            }
+        })
         //setup click listener for signin_btn
         login_btn.setOnClickListener() {
             if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
