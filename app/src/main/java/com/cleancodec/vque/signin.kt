@@ -40,7 +40,7 @@ class signin : AppCompatActivity() {
 
         //initilize mAuth
         mAuth = FirebaseAuth.getInstance()
-        //----------
+
 
         editTextPhone.addTextChangedListener(object : TextWatcher {
 
@@ -77,9 +77,23 @@ class signin : AppCompatActivity() {
                 }
             }
         })
+        editTextCode.addTextChangedListener(object : TextWatcher {
 
+            override fun afterTextChanged(s: Editable) {}
 
-        //----------
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if(editTextCode.text.toString().length == 6) {
+
+                    verifySignInCode()
+                }
+            }
+        })
+
         //setup click listener for signin_btn
         login_btn.setOnClickListener() {
             verifySignInCode()
