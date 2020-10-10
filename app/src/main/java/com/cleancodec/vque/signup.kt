@@ -1,13 +1,11 @@
 package com.cleancodec.vque
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
@@ -18,16 +16,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import kotlinx.android.synthetic.main.activity_signin.*
-import kotlinx.android.synthetic.main.activity_signup.arrow_back
-import kotlinx.android.synthetic.main.activity_signup.editTextCode
-import kotlinx.android.synthetic.main.activity_signup.editTextPhone
-import kotlinx.android.synthetic.main.activity_signup.login_btn
-import kotlinx.android.synthetic.main.activity_signup.progressBarPhone
-import kotlinx.android.synthetic.main.activity_signup.textViewTimer
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_signup.*
-import kotlinx.android.synthetic.main.activity_signup.sign_up_btn
 import java.util.concurrent.TimeUnit
+
 
 class signup : AppCompatActivity() {
 
@@ -39,6 +31,11 @@ class signup : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
+
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("messages")
+
+        myRef.setValue("Hello, there!")
 
         //disable number and code
         editTextPhone.isEnabled = false
@@ -117,7 +114,7 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >=3 ) {
+                if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >= 3) {
 
                     verifySignInCode()
                 }
@@ -137,7 +134,7 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if(editTextName.text.toString().length >=3) {
+                if (editTextName.text.toString().length >= 3) {
                     editTextPhone.isEnabled = true;
                 }
             }
@@ -156,7 +153,7 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if(editTextPhone.text.toString().length == 10) {
+                if (editTextPhone.text.toString().length == 10) {
                     editTextCode.isEnabled = true;
                 }
             }
@@ -270,7 +267,10 @@ class signup : AppCompatActivity() {
 
     private fun closeKeyBoard() {
         val inputManager:InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.SHOW_FORCED)
+        inputManager.hideSoftInputFromWindow(
+            currentFocus?.windowToken,
+            InputMethodManager.SHOW_FORCED
+        )
     }
 
 
