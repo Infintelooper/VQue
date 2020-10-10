@@ -35,7 +35,7 @@ class signup : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("messages")
 
-        myRef.setValue("Hello, there!")
+        myRef.setValue("Hello, akhil!")
 
         //disable number and code
         editTextPhone.isEnabled = false

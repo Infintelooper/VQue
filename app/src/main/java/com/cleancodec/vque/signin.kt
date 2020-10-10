@@ -169,14 +169,17 @@ class signin : AppCompatActivity() {
 
     private fun sentVerificationCode() {
         var phone:String = editTextPhone.text.toString()
-
+        //---------------
+        phone  = "+91$phone"
+        Log.i("phone format",phone)
+        //-----------------
         if(phone.isEmpty())
         {
             editTextPhone.setError("phone number is required")
             editTextPhone.requestFocus()
             return
         }
-        if(phone.length != 10 )
+        if(phone.length != 13 )
         {
             editTextPhone.setError("please enter a valid phone")
             editTextPhone.requestFocus()
@@ -184,13 +187,13 @@ class signin : AppCompatActivity() {
         }
 
         //firebase code
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phone, // Phone number to verify
-                60, // Timeout duration
-                TimeUnit.SECONDS, // Unit of timeout
-                this, // Activity (for callback binding)
-                callbacks
-            ) // OnVerificationStateChangedCallbacks
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            phone, // Phone number to verify
+            60, // Timeout duration
+            TimeUnit.SECONDS, // Unit of timeout
+            this, // Activity (for callback binding)
+            callbacks
+        ) // OnVerificationStateChangedCallbacks
 
     }
 
@@ -210,6 +213,7 @@ class signin : AppCompatActivity() {
         ) {
             super.onCodeSent(verificationId, token)
             _codeSent = verificationId
+            Log.i("Code sent",_codeSent)
         }
     }
 
