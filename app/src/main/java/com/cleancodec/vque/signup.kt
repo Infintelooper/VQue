@@ -243,7 +243,7 @@ class signup : AppCompatActivity() {
         {
             editTextName.error = "please enter full name"
             editTextName.requestFocus()
-            return
+            //return
         }
         if(phone.length != 13 )
         {

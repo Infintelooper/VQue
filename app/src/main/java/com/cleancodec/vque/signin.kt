@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_signin.arrow_back
@@ -81,7 +82,8 @@ class signin : AppCompatActivity() {
                     }
                     timer.start()
                     //timer code end
-                    sentVerificationCode()
+
+                    isUser(editTextPhone.text.toString())
                 }
             }
         })
@@ -141,7 +143,35 @@ class signin : AppCompatActivity() {
         }
     }
 
+    fun isUser(phone:String) {
+        //firebase setup
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("users")
+        var exist:Boolean
 
+        val _enteredNumber = phone
+        var _checkUser: Query = myRef.orderByChild("id").equalTo(_enteredNumber)
+        _checkUser.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                exist = (snapshot.exists().toString()).toBoolean()
+                if(!exist){
+                    Log.i("User","not exist")
+                    sentVerificationCode()
+                }
+                else {
+                    Log.i("User","exist")
+                }
+                //var name = snapshot.child(phone).child("name").getValue(String.javaClass)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
+
+    }
     private fun verifySignInCode() {
         var code = editTextCode.text.toString()
         val credential = PhoneAuthProvider.getCredential(_codeSent, code)
