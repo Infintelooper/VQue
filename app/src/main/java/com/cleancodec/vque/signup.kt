@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
@@ -17,7 +18,15 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.activity_signup.arrow_back
+import kotlinx.android.synthetic.main.activity_signup.editTextCode
+import kotlinx.android.synthetic.main.activity_signup.editTextPhone
+import kotlinx.android.synthetic.main.activity_signup.login_btn
+import kotlinx.android.synthetic.main.activity_signup.progressBarPhone
+import kotlinx.android.synthetic.main.activity_signup.sign_up_btn
+import kotlinx.android.synthetic.main.activity_signup.textViewTimer
 import java.util.concurrent.TimeUnit
 
 
@@ -35,8 +44,6 @@ class signup : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
-
-        //myRef.setValue("Hello, hai!")
 
         //disable number and code
         editTextPhone.isEnabled = false
@@ -197,7 +204,7 @@ class signup : AppCompatActivity() {
 
                             var helperClass = UserHelperClass(phone,name,phone)
 
-                            myRef.setValue(helperClass)
+                            myRef.child(phone).setValue(helperClass)
                         //end code
                     //end code
                 } else {
@@ -215,6 +222,10 @@ class signup : AppCompatActivity() {
 
     private fun sentVerificationCode() {
         var phone:String = editTextPhone.text.toString()
+        //---------------
+        phone  = "+91$phone"
+        Log.i("phone format",phone)
+        //-----------------
 
         if(phone.isEmpty())
         {
@@ -234,7 +245,7 @@ class signup : AppCompatActivity() {
             editTextName.requestFocus()
             return
         }
-        if(phone.length != 10 )
+        if(phone.length != 13 )
         {
             editTextPhone.error = "please enter a valid phone"
             editTextPhone.requestFocus()
