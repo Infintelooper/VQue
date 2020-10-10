@@ -28,14 +28,15 @@ class signup : AppCompatActivity() {
     //firebase Authenticator
     lateinit var mAuth: FirebaseAuth
 
+    //firebase setup
+    private val database = FirebaseDatabase.getInstance()
+    private val myRef = database.getReference("users")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("messages")
-
-        myRef.setValue("Hello, akhil!")
+        //myRef.setValue("Hello, hai!")
 
         //disable number and code
         editTextPhone.isEnabled = false
@@ -186,10 +187,18 @@ class signup : AppCompatActivity() {
                 if (task.isSuccessful) {
 
                     //on login successfull activity
-                    Toast.makeText(this@signup, "Login Successfull", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@signup, " Successful", Toast.LENGTH_SHORT).show()
                     //start code for move to landing page
                     val intent = Intent(this@signup, landing::class.java)
                     startActivity(intent)
+                        //code for add to DB register
+                            var phone = editTextPhone.text.toString()
+                            var name = editTextName.text.toString()
+
+                            var helperClass = UserHelperClass(phone,name,phone)
+
+                            myRef.setValue(helperClass)
+                        //end code
                     //end code
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
