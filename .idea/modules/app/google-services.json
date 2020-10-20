@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "655986913012",
+    "firebase_url": "https://vque-e3dbd.firebaseio.com",
+    "project_id": "vque-e3dbd",
+    "storage_bucket": "vque-e3dbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655986913012:android:44e0ebf770386cc71cb8a1",
+        "android_client_info": {
+          "package_name": "com.cleancodec.vque"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655986913012-ea317ug9j0h7u6o2r3muqvjkliathr9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cleancodec.vque",
+            "certificate_hash": "c5a6b30f098214f69c8edf7622f37133c47e03f2"
+          }
+        },
+        {
+          "client_id": "655986913012-bkfuuhbb0fcv3rt5378rqmvpjjkj9d7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4pBpMcwua49o084mvH8w2mFffkRLVJ08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655986913012-bkfuuhbb0fcv3rt5378rqmvpjjkj9d7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
