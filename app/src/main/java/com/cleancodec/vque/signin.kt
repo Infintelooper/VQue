@@ -150,6 +150,7 @@ class signin : AppCompatActivity() {
         var exist:Boolean
 
         val _enteredNumber = phone
+        Log.i("number",phone)
         var _checkUser: Query = myRef.orderByChild("id").equalTo(_enteredNumber)
         _checkUser.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -169,8 +170,6 @@ class signin : AppCompatActivity() {
             }
 
         })
-
-
     }
     private fun verifySignInCode() {
         var code = editTextCode.text.toString()
