@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.activity_signin.*
 
 
 class landing : AppCompatActivity() {
