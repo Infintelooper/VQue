@@ -58,21 +58,21 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_notification" />
+
     <ImageView
         android:id="@+id/search_bar_extended"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/search_bar"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="@+id/search_bar"
         app:layout_constraintTop_toTopOf="@+id/search_bar"
         app:srcCompat="@drawable/ic_search_bar_extend" />
 
     <ImageView
         android:id="@+id/search_bar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="21dp"
@@ -99,7 +99,7 @@
         app:srcCompat="@drawable/ic_search_icon" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/search_shop_text"
         android:layout_width="213dp"
         android:layout_height="40dp"
         android:layout_marginStart="13dp"
