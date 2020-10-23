@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.activity_signin.*
 
@@ -15,6 +16,10 @@ class landing : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+
+        //create instance of notification_fragment
+        val notification_f = notification()
+        makeCurrentFragment(notification_f)
 
         notification_btn.setOnClickListener(){
             if(notification_panel.alpha == 0f){
@@ -62,5 +67,11 @@ class landing : AppCompatActivity() {
         })
 
 
+    }
+    private fun makeCurrentFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.notification_panel, fragment)
+            commit()
+        }
     }
 }
