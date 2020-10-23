@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="391dp"
+        app:layout_constraintGuide_begin="21dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -42,6 +42,116 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintGuide_end="20dp" />
+
+
+    <ImageView
+        android:id="@+id/search_bar_extended"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="@+id/search_bar"
+        app:layout_constraintStart_toStartOf="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="@+id/search_bar"
+        app:srcCompat="@drawable/ic_search_bar_extend" />
+
+    <ImageView
+        android:id="@+id/search_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/notification_btn"
+        app:srcCompat="@drawable/ic_search_bar" />
+
+    <ImageView
+        android:id="@+id/search_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_bar"
+        app:layout_constraintStart_toStartOf="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="@+id/search_bar"
+        app:srcCompat="@drawable/ic_search_icon" />
+    <EditText
+        android:id="@+id/shop_search_editText"
+        android:layout_width="213dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:ems="10"
+        android:fontFamily="sans-serif-light"
+        android:hint="search here..."
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/search_bar"
+        app:layout_constraintEnd_toEndOf="@+id/search_bar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/search_icon"
+        app:layout_constraintTop_toTopOf="@+id/search_bar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+
+    <ImageView
+        android:id="@+id/notification_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/notification_btn"
+        app:srcCompat="@drawable/ic_notification_panel" />
+
+    <ImageView
+        android:id="@+id/notification_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="700dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_notification_btn" />
+    <ImageView
+        android:id="@+id/notification_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/notification_btn"
+        app:layout_constraintEnd_toEndOf="@+id/notification_btn"
+        app:layout_constraintStart_toStartOf="@+id/notification_btn"
+        app:layout_constraintTop_toTopOf="@+id/notification_btn"
+        app:srcCompat="@drawable/ic_notification_icon" />
+
+    <ImageView
+        android:id="@+id/green_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/notification_btn"
+        app:layout_constraintStart_toStartOf="@+id/notification_btn"
+        app:layout_constraintTop_toTopOf="@+id/notification_btn"
+        app:srcCompat="@drawable/ic_green_circle" />
+
+
     <!-- sign in btn -->
     <!-- sign up btn -->
 
