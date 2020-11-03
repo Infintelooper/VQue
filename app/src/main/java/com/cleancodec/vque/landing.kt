@@ -19,7 +19,10 @@ class landing : AppCompatActivity() {
 
         //create instance of notification_fragment
         val notification_f = notification()
-        makeCurrentFragment(notification_f)
+        //create instance of search fragment
+        val result_f = search()
+
+        makeCurrentFragment(notification_f,result_f)
 
         notification_btn.setOnClickListener(){
             if(notification_panel.alpha == 0f){
@@ -68,9 +71,13 @@ class landing : AppCompatActivity() {
 
 
     }
-    private fun makeCurrentFragment(fragment: Fragment) {
+    private fun makeCurrentFragment(fragment_n: Fragment,fragment_s: Fragment) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.notification_panel, fragment)
+            replace(R.id.notification_panel, fragment_n)
+            commit()
+        }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.search_bar_extended, fragment_s)
             commit()
         }
     }

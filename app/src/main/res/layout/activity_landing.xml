@@ -44,10 +44,10 @@
         app:layout_constraintGuide_end="20dp" />
 
 
-    <ImageView
+    <FrameLayout
         android:id="@+id/search_bar_extended"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="317dp"
+        android:layout_height="203dp"
         android:layout_marginTop="25dp"
         android:alpha="0"
         app:layout_constraintEnd_toEndOf="@+id/search_bar"
@@ -101,7 +101,7 @@
         tools:ignore="HardcodedText,MissingConstraints" />
 
 
-<!--
+
     <FrameLayout
         android:id="@+id/notification_panel"
         android:layout_width="wrap_content"
@@ -118,7 +118,6 @@
         app:layout_constraintTop_toTopOf="@+id/notification_btn"
         app:srcCompat="@drawable/ic_notification_panel" >
     </FrameLayout>
-    -->
 
     <ImageView
         android:id="@+id/notification_btn"
@@ -156,6 +155,7 @@
         app:layout_constraintTop_toTopOf="@+id/notification_btn"
         app:srcCompat="@drawable/ic_green_circle" />
 
+    <!--
     <ImageView
         android:id="@+id/token"
         android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
         app:layout_constraintVertical_bias="0.666"
         app:srcCompat="@drawable/ic_token_slip" />
 
-
+-->
     <!-- sign in btn -->
     <!-- sign up btn -->
 
