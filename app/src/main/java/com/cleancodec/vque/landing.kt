@@ -28,6 +28,10 @@ class landing : AppCompatActivity() {
     private val firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseFirestore:FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    //recycle view
+    private val searchList : List<SearchModel> = ArrayList()
+    private val searchListAdapter = SearchListAdapter(searchList)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
@@ -76,6 +80,9 @@ class landing : AppCompatActivity() {
                 //showAlertDialog();
             }
         })
+
+        //Setup recycler view
+
 
     }
     private fun showAlertDialog(){

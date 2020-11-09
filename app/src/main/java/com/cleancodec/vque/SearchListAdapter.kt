@@ -1,5 +1,33 @@
 package com.cleancodec.vque
 
-class SearchListAdapter(var searchList:List<SearchModel>):RecycleView.Adapter {
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.search_single_item.view.*
+
+class SearchListAdapter(var searchList:List<SearchModel>): RecyclerView.Adapter<SearchListAdapter.SearchListViewholder>() {
+
+    class SearchListViewholder(itemview: View) : RecyclerView.ViewHolder(itemview) {
+        fun bind(searchModel: SearchModel){
+            itemView.single_item_search.text = searchModel.title
+        }
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SearchListAdapter.SearchListViewholder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.search_single_item,parent,false)
+        return SearchListViewholder(view)
+    }
+
+    override fun onBindViewHolder(holder: SearchListAdapter.SearchListViewholder, position: Int) {
+        holder.bind(searchList[position])
+    }
+
+    override fun getItemCount(): Int {
+        return searchList.size
+    }
 
 }
