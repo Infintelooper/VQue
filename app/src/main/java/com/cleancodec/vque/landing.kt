@@ -77,14 +77,26 @@ class landing : AppCompatActivity() {
                     search_bar_extended.animate()
                         .alpha(1f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+
+                    search_list.animate()
+                        .alpha(1f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
                 }
                 else{
                     search_bar_extended.animate()
                         .alpha(0f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+
+                    search_list.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
                 }
                 search_bar_extended.setOnClickListener(){
                     search_bar_extended.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+
+                    search_list.animate()
                         .alpha(0f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
                 }
@@ -109,7 +121,7 @@ class landing : AppCompatActivity() {
 
     private fun searchInFirebase(searchText: String) {
         //Search Query
-        firebaseFirestore.collection("Books").orderBy("search_keywords")
+        firebaseFirestore.collection("merchants").orderBy("search_keywords")
             .startAt(searchText).endAt("$searchText\uf8ff").limit(3).get()
             .addOnCompleteListener{
                 if(it.isSuccessful){
@@ -125,7 +137,7 @@ class landing : AppCompatActivity() {
 
     private fun showAlertDialog(){
         val alertDialog:AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialog.setTitle("Add Shop")
+        alertDialog.setTitle("Add Merchant")
         alertDialog.setMessage("Enter shop name here")
 
         //add input
@@ -153,7 +165,7 @@ class landing : AppCompatActivity() {
         bookMap["search_keywords"] = inputText.toLowerCase()
 
         //add to firebase
-        firebaseFirestore.collection("Books").add(bookMap).addOnCompleteListener{
+        firebaseFirestore.collection("merchants").add(bookMap).addOnCompleteListener{
             if(!it.isSuccessful){
                 Log.d(TAG,"Error: ${it.exception!!.message}")
             }
