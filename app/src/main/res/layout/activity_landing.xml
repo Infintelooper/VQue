@@ -151,10 +151,16 @@
         app:srcCompat="@drawable/ic_green_circle" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="236dp" />
+        android:id="@+id/search_list"
+        android:layout_width="317dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_bar_extended"
+        app:layout_constraintEnd_toEndOf="@+id/search_bar_extended"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/search_bar_extended"
+        app:layout_constraintTop_toTopOf="@+id/search_bar"
+        app:layout_constraintVertical_bias="0.923" />
 
 
     <!-- sign in btn -->
