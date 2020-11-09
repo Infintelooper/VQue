@@ -32,6 +32,16 @@ class landing : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
 
+        //check if user login in, require for accessing database
+        if(firebaseAuth.currentUser == null){
+            //create new user
+            firebaseAuth.signInAnonymously().addOnCompleteListener{
+                if(!it.isSuccessful){
+                    Log.d(TAG,"Error : ${it.exception!!.message}")
+                }
+            }
+        }
+
         notification_btn.setOnClickListener(){
             if(notification_panel.alpha == 0f){
                 notification_panel.animate()
@@ -115,7 +125,7 @@ class landing : AppCompatActivity() {
 
     private fun showAlertDialog(){
         val alertDialog:AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialog.setTitle("Search Shop")
+        alertDialog.setTitle("Add Shop")
         alertDialog.setMessage("Enter shop name here")
 
         //add input
@@ -124,7 +134,7 @@ class landing : AppCompatActivity() {
         alertDialog.setView(input)
 
          // add positive button
-         alertDialog.setPositiveButton("Conform Add"
+         alertDialog.setPositiveButton("Add"
          ) { _, _ ->
          //Get value from  input field
          val inputText:String = input.text.toString()
