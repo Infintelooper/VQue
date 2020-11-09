@@ -1,22 +1,18 @@
 package com.cleancodec.vque
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -29,7 +25,7 @@ class landing : AppCompatActivity() {
     private val firebaseFirestore:FirebaseFirestore = FirebaseFirestore.getInstance()
 
     //recycle view
-    private val searchList : List<SearchModel> = ArrayList()
+    private var searchList : List<SearchModel> = ArrayList()
     private val searchListAdapter = SearchListAdapter(searchList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +44,13 @@ class landing : AppCompatActivity() {
                     .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
             }
         }
+
+        //Setup recycler view
+        search_list.hasFixedSize()
+        search_list.layoutManager = LinearLayoutManager(this)
+        search_list.adapter = searchListAdapter
+
+
         //code for popup search extended area when text changed
         shop_search_editText.addTextChangedListener(object : TextWatcher {
 
@@ -78,13 +81,38 @@ class landing : AppCompatActivity() {
 
                 //code to execute search function
                 //showAlertDialog();
+
+                //get value of field
+                val searchText: String = shop_search_editText.text.toString()
+
+                //search in firestore
+                searchInFirebase(searchText.toLowerCase())
             }
         })
 
-        //Setup recycler view
 
-
+        //code for add contents
+        button.setOnClickListener(){
+            showAlertDialog();
+        }
     }
+
+    private fun searchInFirebase(searchText: String) {
+        //Search Query
+        firebaseFirestore.collection("Books").orderBy("search_keywords")
+            .startAt(searchText).endAt("$searchText\uf8ff").limit(3).get()
+            .addOnCompleteListener{
+                if(it.isSuccessful){
+                    //get the list and set it to adapter
+                    searchList = it.result!!.toObjects(SearchModel::class.java)
+                    searchListAdapter.searchList = searchList
+                    searchListAdapter.notifyDataSetChanged()
+                }else{
+                    Log.d(TAG,"Error: ${it.exception!!.message}")
+                }
+            }
+    }
+
     private fun showAlertDialog(){
         val alertDialog:AlertDialog.Builder = AlertDialog.Builder(this)
         alertDialog.setTitle("Search Shop")
