@@ -121,8 +121,7 @@ class landing : AppCompatActivity() {
 
     private fun searchInFirebase(searchText: String) {
         //Search Query
-        firebaseFirestore.collection("merchants").orderBy("search_keywords")
-            .startAt(searchText).endAt("$searchText\uf8ff").limit(3).get()
+        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords",searchText).limit(3).get()
             .addOnCompleteListener{
                 if(it.isSuccessful){
                     //get the list and set it to adapter
@@ -160,9 +159,13 @@ class landing : AppCompatActivity() {
     }
 
     private fun addToFirestore(inputText: String) {
-        val bookMap = HashMap<String,String>()
+
+        //keywords
+        val searchKeywords = generateSearchkeywords(inputText)
+
+        val bookMap = HashMap<String,Any>()
         bookMap["title"] = inputText
-        bookMap["search_keywords"] = inputText.toLowerCase()
+        bookMap["search_keywords"] = searchKeywords
 
         //add to firebase
         firebaseFirestore.collection("merchants").add(bookMap).addOnCompleteListener{
@@ -170,5 +173,28 @@ class landing : AppCompatActivity() {
                 Log.d(TAG,"Error: ${it.exception!!.message}")
             }
         }
+    }
+
+    private fun generateSearchkeywords(inputText: String) : MutableList<String> {
+        var inputString = inputText.toLowerCase()
+        var keywords = mutableListOf<String>()
+
+        //split all words from the string
+        val words = inputString.split(" ")
+
+        //for each word
+        for(word in words){
+            var appendString = ""
+
+            //for each character in the whole string
+            for (charPosition in inputString.indices){
+                appendString += inputString[charPosition].toString()
+                keywords.add(appendString)
+            }
+
+            //remove first word form the string
+            inputString = inputString.replace("$word ","")
+        }
+        return keywords
     }
 }
