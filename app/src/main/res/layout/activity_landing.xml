@@ -163,6 +163,77 @@
         app:layout_constraintTop_toTopOf="@+id/search_bar"
         app:layout_constraintVertical_bias="0.923" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        app:layout_constraintVertical_bias="0.37"
+        app:srcCompat="@drawable/ic_token_slip" />
+
+    <TextView
+        android:id="@+id/tokenid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="354dp"
+        android:text="264855"
+        android:textColor="@android:color/white"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.429" />
+
+    <TextView
+        android:id="@+id/token"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="194dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="183dp"
+        android:fontFamily="sans-serif-black"
+        android:text="117"
+        android:textColor="@android:color/black"
+        android:textSize="96sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0" />
+    <TextView
+        android:id="@+id/tokentime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="99dp"
+        android:text="10:10 AM"
+        android:textColor="@android:color/white"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.429" />
+    <!--
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -172,7 +243,7 @@
         app:layout_constraintEnd_toEndOf="@+id/notification_panel"
         app:layout_constraintStart_toStartOf="@+id/notification_panel"
         app:layout_constraintTop_toTopOf="@+id/notification_panel" />
-
+    -->
 
     <!-- sign in btn -->
     <!-- sign up btn -->
