@@ -114,8 +114,39 @@ class landing : AppCompatActivity() {
 
 
         //code for add contents
-        button.setOnClickListener(){
+        generate.setOnClickListener(){
             showAlertDialog();
+        }
+        generate.setOnClickListener(){
+            //token generation code
+            tokenslip.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            tokenid.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            token.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            tokentime.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+        }
+
+        remove.setOnClickListener(){
+            //token generation code
+            tokenslip.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            tokenid.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            token.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            tokentime.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
         }
     }
 

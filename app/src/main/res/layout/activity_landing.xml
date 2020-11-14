@@ -164,13 +164,14 @@
         app:layout_constraintVertical_bias="0.923" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/tokenslip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="80dp"
+        android:alpha="0"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.479"
@@ -187,14 +188,15 @@
         android:layout_marginTop="95dp"
         android:layout_marginEnd="65dp"
         android:layout_marginBottom="354dp"
+        android:alpha="0"
         android:text="264855"
         android:textColor="@android:color/white"
         android:textSize="36dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/tokenslip"
+        app:layout_constraintEnd_toEndOf="@+id/tokenslip"
         app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/tokenslip"
+        app:layout_constraintTop_toTopOf="@+id/tokenslip"
         app:layout_constraintVertical_bias="0.429" />
 
     <TextView
@@ -205,16 +207,17 @@
         android:layout_marginTop="194dp"
         android:layout_marginEnd="54dp"
         android:layout_marginBottom="183dp"
+        android:alpha="0"
         android:fontFamily="sans-serif-black"
         android:text="117"
         android:textColor="@android:color/black"
         android:textSize="96sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/tokenslip"
+        app:layout_constraintEnd_toEndOf="@+id/tokenslip"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/tokenslip"
+        app:layout_constraintTop_toTopOf="@+id/tokenslip"
         app:layout_constraintVertical_bias="1.0" />
     <TextView
         android:id="@+id/tokentime"
@@ -224,15 +227,38 @@
         android:layout_marginTop="350dp"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="99dp"
+        android:alpha="0"
         android:text="10:10 AM"
         android:textColor="@android:color/white"
         android:textSize="36dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/tokenslip"
+        app:layout_constraintEnd_toEndOf="@+id/tokenslip"
         app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/tokenslip"
+        app:layout_constraintTop_toTopOf="@+id/tokenslip"
         app:layout_constraintVertical_bias="0.429" />
+
+    <Button
+        android:id="@+id/generate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GENERATE"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REMOVE"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="0.587" />
     <!--
     <Button
         android:id="@+id/button"
