@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -131,6 +132,7 @@ class landing : AppCompatActivity() {
             tokentime.animate()
                 .alpha(1f)
                 .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
         }
 
         remove.setOnClickListener(){
