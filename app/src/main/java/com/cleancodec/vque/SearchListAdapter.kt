@@ -33,7 +33,7 @@ class SearchListAdapter(var searchList: List<SearchModel>): RecyclerView.Adapter
     override fun onBindViewHolder(holder: SearchListAdapter.SearchListViewholder, position: Int) {
         holder.bind(searchList[position])
         holder.itemView.setOnClickListener {
-            Log.i("Hai","There")
+                Log.i("Hai","There")
             //code for text change in shop_search_editText
 
         }
