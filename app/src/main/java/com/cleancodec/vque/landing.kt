@@ -1,15 +1,23 @@
 package com.cleancodec.vque
 
+import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,7 +25,12 @@ import kotlinx.android.synthetic.main.activity_landing.*
 import java.util.*
 import kotlin.collections.HashMap
 
+
 private const val TAG:String = "FILESTORE SEARCH LOG"
+
+//for shop select
+var selected:Boolean = false
+var name:String = ""
 
 class landing : AppCompatActivity() {
 
@@ -38,12 +51,12 @@ class landing : AppCompatActivity() {
             //create new user
             firebaseAuth.signInAnonymously().addOnCompleteListener{
                 if(!it.isSuccessful){
-                    Log.d(TAG,"Error : ${it.exception!!.message}")
+                    Log.d(TAG, "Error : ${it.exception!!.message}")
                 }
             }
         }
 
-        notification_btn.setOnClickListener(){
+        notification_btn.setOnClickListener {
             if(notification_panel.alpha == 0f){
                 notification_panel.animate()
                     .alpha(1f)
@@ -67,14 +80,18 @@ class landing : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
 
-                if(shop_search_editText.length() > 0){
+                if (shop_search_editText.length() > 0) {
                     search_bar_extended.animate()
                         .alpha(1f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
@@ -82,8 +99,7 @@ class landing : AppCompatActivity() {
                     search_list.animate()
                         .alpha(1f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-                }
-                else{
+                } else {
                     search_bar_extended.animate()
                         .alpha(0f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
@@ -92,7 +108,7 @@ class landing : AppCompatActivity() {
                         .alpha(0f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
                 }
-                search_bar_extended.setOnClickListener(){
+                search_bar_extended.setOnClickListener {
                     search_bar_extended.animate()
                         .alpha(0f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
@@ -110,15 +126,17 @@ class landing : AppCompatActivity() {
 
                 //search in firestore
                 searchInFirebase(searchText.toLowerCase())
+                selectText() //code to update shop_search_editText
+
             }
         })
 
 
         //code for add contents
-        generate.setOnClickListener(){
-            showAlertDialog();
+        generate.setOnClickListener {
+            showAlertDialog()
         }
-        generate.setOnClickListener(){
+        generate.setOnClickListener {
             //token generation code
             tokenslip.animate()
                 .alpha(1f)
@@ -135,7 +153,7 @@ class landing : AppCompatActivity() {
             Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
         }
 
-        remove.setOnClickListener(){
+        remove.setOnClickListener {
             //token generation code
             tokenslip.animate()
                 .alpha(0f)
@@ -152,9 +170,45 @@ class landing : AppCompatActivity() {
         }
     }
 
+    private fun selectText() {
+
+        // intent code
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            mMessageReceiver,
+            IntentFilter("custom-message")
+        )
+        //code to update
+    }
+    var mMessageReceiver:BroadcastReceiver = object:BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // Get extra data included in the Intent
+            val shopName = intent.getStringExtra("data_pass")
+            selected = true
+            name = shopName.toString()
+            updateText(name)
+        }
+    }
+    fun updateText(name: String){
+        Log.i("Hai", name)
+        shop_search_editText.setText(name)
+        shop_search_editText.clearFocus()
+        hideKeyboard()
+        search_bar_extended.animate()
+            .alpha(0f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+
+        search_list.animate()
+            .alpha(0f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+    }
+    private fun hideKeyboard(){
+    }
+
     private fun searchInFirebase(searchText: String) {
         //Search Query
-        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords",searchText).limit(3).get()
+        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords", searchText).limit(
+            3
+        ).get()
             .addOnCompleteListener{
                 if(it.isSuccessful){
                     //get the list and set it to adapter
@@ -162,7 +216,7 @@ class landing : AppCompatActivity() {
                     searchListAdapter.searchList = searchList
                     searchListAdapter.notifyDataSetChanged()
                 }else{
-                    Log.d(TAG,"Error: ${it.exception!!.message}")
+                    Log.d(TAG, "Error: ${it.exception!!.message}")
                 }
             }
     }
@@ -178,7 +232,8 @@ class landing : AppCompatActivity() {
         alertDialog.setView(input)
 
          // add positive button
-         alertDialog.setPositiveButton("Add"
+         alertDialog.setPositiveButton(
+             "Add"
          ) { _, _ ->
          //Get value from  input field
          val inputText:String = input.text.toString()
@@ -196,14 +251,14 @@ class landing : AppCompatActivity() {
         //keywords
         val searchKeywords = generateSearchkeywords(inputText)
 
-        val bookMap = HashMap<String,Any>()
+        val bookMap = HashMap<String, Any>()
         bookMap["title"] = inputText
         bookMap["search_keywords"] = searchKeywords
 
         //add to firebase
         firebaseFirestore.collection("merchants").add(bookMap).addOnCompleteListener{
             if(!it.isSuccessful){
-                Log.d(TAG,"Error: ${it.exception!!.message}")
+                Log.d(TAG, "Error: ${it.exception!!.message}")
             }
         }
     }
@@ -226,7 +281,7 @@ class landing : AppCompatActivity() {
             }
 
             //remove first word form the string
-            inputString = inputString.replace("$word ","")
+            inputString = inputString.replace("$word ", "")
         }
         return keywords
     }
