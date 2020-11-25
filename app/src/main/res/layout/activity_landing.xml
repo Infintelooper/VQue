@@ -79,6 +79,7 @@
         app:layout_constraintStart_toStartOf="@+id/search_bar"
         app:layout_constraintTop_toTopOf="@+id/search_bar"
         app:srcCompat="@drawable/ic_search_icon" />
+
     <EditText
         android:id="@+id/shop_search_editText"
         android:layout_width="213dp"
@@ -86,12 +87,12 @@
         android:layout_marginStart="13dp"
         android:layout_marginTop="7dp"
         android:layout_marginBottom="7dp"
+        android:background="@null"
         android:ems="10"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/roboto"
         android:hint="search here..."
         android:inputType="textPersonName"
         android:textSize="20sp"
-        android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/search_bar"
         app:layout_constraintEnd_toEndOf="@+id/search_bar"
         app:layout_constraintHorizontal_bias="0.0"
@@ -194,6 +195,7 @@
         android:layout_marginEnd="65dp"
         android:layout_marginBottom="354dp"
         android:alpha="0"
+        android:fontFamily="@font/roboto_medium"
         android:text="264855"
         android:textColor="@android:color/white"
         android:textSize="36dp"
@@ -213,7 +215,7 @@
         android:layout_marginEnd="54dp"
         android:layout_marginBottom="183dp"
         android:alpha="0"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/roboto_black"
         android:text="117"
         android:textColor="@android:color/black"
         android:textSize="96sp"
@@ -224,6 +226,7 @@
         app:layout_constraintStart_toStartOf="@+id/tokenslip"
         app:layout_constraintTop_toTopOf="@+id/tokenslip"
         app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/tokentime"
         android:layout_width="wrap_content"
@@ -233,6 +236,7 @@
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="99dp"
         android:alpha="0"
+        android:fontFamily="@font/roboto_medium"
         android:text="10:10 AM"
         android:textColor="@android:color/white"
         android:textSize="36dp"

@@ -54,12 +54,14 @@ class signup : AppCompatActivity() {
         {
             val intent = Intent(this@signup, home::class.java)
             startActivity(intent)
+            this.finish();
         }
         //for shift to login screen
         login_btn.setOnClickListener()
         {
             val intent = Intent(this@signup, signin::class.java)
             startActivity(intent)
+            this.finish();
         }
 
         //initilize mAuth
@@ -198,6 +200,7 @@ class signup : AppCompatActivity() {
                     //start code for move to landing page
                     val intent = Intent(this@signup, landing::class.java)
                     startActivity(intent)
+                    this.finish();
                         //code for add to DB register
                             var phone = editTextPhone.text.toString()
                             var name = editTextName.text.toString()

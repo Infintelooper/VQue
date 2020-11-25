@@ -17,12 +17,14 @@ class home : AppCompatActivity() {
         {
             val intent = Intent(this@home, signin::class.java)
             startActivity(intent)
+            this.finish();
         }
          //for shift to signup screen
         sign_up_btn.setOnClickListener()
         {
             val intent = Intent(this@home, signup::class.java)
             startActivity(intent)
+            this.finish();
         }
     }
 }
