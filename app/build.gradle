@@ -43,5 +43,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     //material components
     implementation 'com.google.android.material:material:1.3.0-alpha03'
+    //loading animations
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
 }

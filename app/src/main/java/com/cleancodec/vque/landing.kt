@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Debug
+import android.os.Handler
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_landing.*
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.concurrent.schedule
 
 
 private const val TAG:String = "FILESTORE SEARCH LOG"
@@ -138,44 +141,45 @@ class landing : AppCompatActivity() {
           //  showAlertDialog()
         //}
         generate.setOnClickListener {
-            //token generation code
-            tokenslip.animate()
-                .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            tokenid.animate()
-                .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            token.animate()
-                .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            tokentime.animate()
-                .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
+
 
             //disbale generate button
             generate.alpha = 0f
             generate.isClickable = false
-        }
+            //loading
+            spin_kit.visibility = View.VISIBLE
 
-        remove.setOnClickListener {
-            //token generation code
-            tokenslip.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            tokenid.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            token.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            tokentime.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
+            Handler().postDelayed({
+                Handler().postDelayed({
+                    makeSlipVisible()
+                }, 300)
+                //make loading invisible
+                spin_kit.visibility = View.INVISIBLE
+            }, 2000)
+
         }
         authentication() // code for enable auto login
     }
 
+    private fun makeSlipVisible(){
+
+
+        //token generation code
+        tokenslip.animate()
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+        tokenid.animate()
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+        token.animate()
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+        tokentime.animate()
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+        Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
+
+    }
     private fun authentication(){
         //code for keep sign in the app
         val preference=getSharedPreferences(
