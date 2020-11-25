@@ -184,7 +184,7 @@ class signin : AppCompatActivity() {
                     //on login successfull activity
                     Toast.makeText(this@signin, "Login Successfull", Toast.LENGTH_SHORT).show()
                     //start code for move to landing page
-                    val intent = Intent(this@signin, landing::class.java)
+                    val intent = Intent(this@signin, landing_main::class.java)
                     startActivity(intent)
                     //end code
                 } else {
