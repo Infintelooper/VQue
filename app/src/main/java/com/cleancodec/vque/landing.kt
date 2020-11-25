@@ -1,23 +1,22 @@
 package com.cleancodec.vque
 
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Debug
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -129,7 +128,7 @@ class landing : AppCompatActivity() {
                 searchInFirebase(searchText.toLowerCase())
                 selectText() //code to update shop_search_editText
 
-
+                selected = false
             }
         })
 
@@ -155,8 +154,8 @@ class landing : AppCompatActivity() {
             Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
 
             //disbale generate button
-            generate.alpha = 0f;
-            generate.isClickable = false;
+            generate.alpha = 0f
+            generate.isClickable = false
         }
 
         remove.setOnClickListener {
@@ -174,14 +173,17 @@ class landing : AppCompatActivity() {
                 .alpha(0f)
                 .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
         }
-        authentication()
+        authentication() // code for enable auto login
     }
 
     private fun authentication(){
         //code for keep sign in the app
-        val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
         val editor=preference.edit()
-        editor.putBoolean("isAuthenticated",true)
+        editor.putBoolean("isAuthenticated", true)
         editor.apply()
 
     }
@@ -199,21 +201,22 @@ class landing : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             // Get extra data included in the Intent
             val shopName = intent.getStringExtra("data_pass")
+            if(!selected)
+                hideKeyboard()
             selected = true
             name = shopName.toString()
             updateText(name)
 
             //code to make generate btn visible
-            generate.alpha = 1f;
-            generate.isClickable = true;
-            hideKeyboard();
+            generate.alpha = 1f
+            generate.isClickable = true
+            //hideKeyboard()
         }
     }
     fun updateText(name: String){
         Log.i("Hai", name)
         shop_search_editText.setText(name)
         shop_search_editText.clearFocus()
-        hideKeyboard()
         search_bar_extended.animate()
             .alpha(0f)
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
@@ -222,9 +225,14 @@ class landing : AppCompatActivity() {
             .alpha(0f)
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
     }
-    private fun hideKeyboard(){
-        //code to hide keyboard
-        shop_search_editText.showSoftInputOnFocus = false
+
+    fun hideKeyboard() {
+        Log.i("Keyboard","Disabled")
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
     private fun searchInFirebase(searchText: String) {

@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".home"></activity>
-        <activity android:name=".landing" />
+        <activity android:name=".landing"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".signup" />
         <activity android:name=".MainActivity" />
         <activity android:name=".signin" />
