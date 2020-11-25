@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -128,14 +129,15 @@ class landing : AppCompatActivity() {
                 searchInFirebase(searchText.toLowerCase())
                 selectText() //code to update shop_search_editText
 
+
             }
         })
 
 
         //code for add contents
-        generate.setOnClickListener {
-            showAlertDialog()
-        }
+        //generate.setOnClickListener {
+          //  showAlertDialog()
+        //}
         generate.setOnClickListener {
             //token generation code
             tokenslip.animate()
@@ -151,6 +153,10 @@ class landing : AppCompatActivity() {
                 .alpha(1f)
                 .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
             Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
+
+            //disbale generate button
+            generate.alpha = 0f;
+            generate.isClickable = false;
         }
 
         remove.setOnClickListener {
@@ -168,6 +174,16 @@ class landing : AppCompatActivity() {
                 .alpha(0f)
                 .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
         }
+        authentication()
+    }
+
+    private fun authentication(){
+        //code for keep sign in the app
+        val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+        val editor=preference.edit()
+        editor.putBoolean("isAuthenticated",true)
+        editor.apply()
+
     }
 
     private fun selectText() {
@@ -186,6 +202,11 @@ class landing : AppCompatActivity() {
             selected = true
             name = shopName.toString()
             updateText(name)
+
+            //code to make generate btn visible
+            generate.alpha = 1f;
+            generate.isClickable = true;
+            hideKeyboard();
         }
     }
     fun updateText(name: String){
@@ -202,6 +223,8 @@ class landing : AppCompatActivity() {
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
     }
     private fun hideKeyboard(){
+        //code to hide keyboard
+        shop_search_editText.showSoftInputOnFocus = false
     }
 
     private fun searchInFirebase(searchText: String) {
@@ -285,4 +308,20 @@ class landing : AppCompatActivity() {
         }
         return keywords
     }
+
+    override fun onBackPressed()
+    {
+                AlertDialog.Builder(this)
+                    .setTitle("Exit Alert")
+                    .setMessage("Do You Want To Exit VQue App?")
+                    .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
+                        super.onBackPressed()
+                    }
+                    .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+
+                    }
+                    .show()
+
+        }
+
 }
