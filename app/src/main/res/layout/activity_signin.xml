@@ -94,6 +94,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="400dp"
+        android:alpha="0.5"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
         android:background="@color/text_white"
@@ -131,6 +132,7 @@
         android:layout_marginTop="460dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
+        android:alpha="0.5"
         android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -196,21 +198,7 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_arrow_back" />
 
-    <ImageView
-        android:id="@+id/welcome_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="570dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.375"
-        app:srcCompat="@drawable/ic_welcom_msg" />
+
 
     <EditText
         android:id="@+id/editTextPhone"
