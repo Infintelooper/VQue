@@ -232,7 +232,6 @@ class landing : AppCompatActivity() {
     }
 
     fun hideKeyboard() {
-        Log.i("Keyboard","Disabled")
         val view = this.currentFocus
         if (view != null) {
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager

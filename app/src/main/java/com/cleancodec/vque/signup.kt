@@ -80,37 +80,10 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if (editTextPhone.text.toString().length == 10 && editTextName.text.toString().length >= 3) {
+                if (editTextPhone.text.toString().length == 10 && editTextName.text.toString().length >3) {
+                    closeKeyBoard()
+                   searchInFirebase(editTextPhone.text.toString())
 
-                    if (searchInFirebase(editTextPhone.text.toString())) {
-
-                    } else
-                    {
-                    //closeKeyBoard() // close keyboard
-                    progressBarPhone.visibility = View.VISIBLE
-                    textViewTimer.visibility = View.VISIBLE
-                    // timer code start
-                    var count = 61
-                    textViewTimer.text = count.toString()
-                    var timer = object : CountDownTimer(60000, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            editTextPhone.isEnabled = false
-                            login_btn.isEnabled = false
-                            count--
-                            textViewTimer.text = count.toString()
-                        }
-
-                        override fun onFinish() {
-                            editTextPhone.isEnabled = true
-                            login_btn.isEnabled = true
-                            progressBarPhone.visibility = View.INVISIBLE
-                            textViewTimer.visibility = View.INVISIBLE
-                        }
-                    }
-                    timer.start()
-                    //timer code end
-                    sentVerificationCode()
-                    }
                }
             }
         })
@@ -128,7 +101,7 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >= 3) {
+                if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >3) {
 
                     verifySignInCode()
                 }
@@ -148,7 +121,7 @@ class signup : AppCompatActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if (editTextName.text.toString().length >= 3) {
+                if (editTextName.text.toString().length > 3) {
                     editTextPhone.isEnabled = true;
                 }
             }
@@ -174,7 +147,7 @@ class signup : AppCompatActivity() {
         })
         //setup click listener for signin_btn
         sign_up_btn.setOnClickListener {
-            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >=3 ) {
+            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >3 ) {
                 verifySignInCode()
             }
         }
@@ -187,9 +160,35 @@ class signup : AppCompatActivity() {
         //-------------------
 
     }
-    private  fun searchInFirebase(searchText: String) : Boolean{
+    private fun initiateVerification(){
 
-        var boolean:Boolean = false
+        //closeKeyBoard() // close keyboard
+        progressBarPhone.visibility = View.VISIBLE
+        textViewTimer.visibility = View.VISIBLE
+        // timer code start
+        var count = 61
+        textViewTimer.text = count.toString()
+        var timer = object : CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                editTextPhone.isEnabled = false
+                login_btn.isEnabled = false
+                count--
+                textViewTimer.text = count.toString()
+            }
+
+            override fun onFinish() {
+                editTextPhone.isEnabled = true
+                login_btn.isEnabled = true
+                progressBarPhone.visibility = View.INVISIBLE
+                textViewTimer.visibility = View.INVISIBLE
+            }
+        }
+        timer.start()
+        //timer code end
+        sentVerificationCode()
+    }
+    private  fun searchInFirebase(searchText: String){
+
         var searchList : List<SearchModel> = ArrayList()
         //Search Query
         firebaseFirestores.collection("users").whereEqualTo("phone",searchText).limit(3).get()
@@ -197,10 +196,8 @@ class signup : AppCompatActivity() {
 
                 if (it.isSuccessful) {
                         searchList = it.result!!.toObjects(SearchModel::class.java)
-                        Log.i("List no is",searchList.size.toString())
                          if(searchList.isNotEmpty()) {
 
-                             boolean = true
                              AlertDialog.Builder(this)
                                  .setTitle("User Already Exist")
                                  .setMessage("Do You Want To Sign in to VQue App ?")
@@ -213,15 +210,13 @@ class signup : AppCompatActivity() {
                                      this.finish()
                                  }
                                  .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
-
-                                     //code to cancel surrent process
-                                     val intent = Intent(this@signup, signup::class.java)
-                                     startActivity(intent)
-                                     Animatoo.animateFade(this);
-                                     this.finish()
+                                     editTextPhone.text.clear()
                                  }
                                  .show()
 
+                         }
+                    else{
+                             initiateVerification()
                          }
                 }
                 else {
@@ -229,7 +224,6 @@ class signup : AppCompatActivity() {
                 }
 
             }
-        return boolean
     }
 
     private fun verifySignInCode() {
@@ -362,11 +356,11 @@ class signup : AppCompatActivity() {
 
 
     private fun closeKeyBoard() {
-        val inputManager:InputMethodManager =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(
-            currentFocus?.windowToken,
-            InputMethodManager.SHOW_FORCED
-        )
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
 
