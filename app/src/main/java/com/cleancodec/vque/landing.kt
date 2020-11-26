@@ -247,6 +247,7 @@ class landing : AppCompatActivity() {
         ).get()
             .addOnCompleteListener{
                 if(it.isSuccessful){
+
                     //get the list and set it to adapter
                     searchList = it.result!!.toObjects(SearchModel::class.java)
                     searchListAdapter.searchList = searchList

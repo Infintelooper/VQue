@@ -12,6 +12,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.firebase.FirebaseException
@@ -34,7 +35,8 @@ private const val TAG:String = "FILESTORE SEARCH LOG"
 class signup : AppCompatActivity() {
 
     lateinit var _codeSent:String
-    private val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseFirestores:FirebaseFirestore = FirebaseFirestore.getInstance()
 
     //firebase Authenticator
     lateinit var mAuth: FirebaseAuth
@@ -79,8 +81,6 @@ class signup : AppCompatActivity() {
                 before: Int, count: Int
             ) {
                 if (editTextPhone.text.toString().length == 10 && editTextName.text.toString().length >= 3) {
-
-                    var a:Boolean = searchInFirebase(editTextPhone.text.toString())
 
                     if (searchInFirebase(editTextPhone.text.toString())) {
 
@@ -187,29 +187,47 @@ class signup : AppCompatActivity() {
         //-------------------
 
     }
-    private  fun searchInFirebase(phone: String) : Boolean{
+    private  fun searchInFirebase(searchText: String) : Boolean{
 
         var boolean:Boolean = false
+        var searchList : List<SearchModel> = ArrayList()
         //Search Query
-        firebaseFirestore.collection("users").whereArrayContains("phone", phone).get()
-            .addOnCompleteListener{
+        firebaseFirestores.collection("users").whereEqualTo("phone",searchText).limit(3).get()
+            .addOnCompleteListener {
 
-                var searchList : List<SearchModel> = ArrayList()
+                if (it.isSuccessful) {
+                        searchList = it.result!!.toObjects(SearchModel::class.java)
+                        Log.i("List no is",searchList.size.toString())
+                         if(searchList.isNotEmpty()) {
 
-                if(it.isSuccessful){
+                             boolean = true
+                             AlertDialog.Builder(this)
+                                 .setTitle("User Already Exist")
+                                 .setMessage("Do You Want To Sign in to VQue App ?")
+                                 .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
 
-                    searchList = it.result!!.toObjects(SearchModel::class.java)
-                    if(searchList.contains(phone))
-                    {
-                        //phone no already registered.
-                        boolean = true
-                        editTextPhone.error = "Already Registered"
-                        Log.i("into :","user exusts")
-                        editTextName.requestFocus()
-                    }
-                }else{
+                                     //code to move to sign in page
+                                     val intent = Intent(this@signup, signin::class.java)
+                                     startActivity(intent)
+                                     Animatoo.animateSlideRight(this);
+                                     this.finish()
+                                 }
+                                 .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+
+                                     //code to cancel surrent process
+                                     val intent = Intent(this@signup, signup::class.java)
+                                     startActivity(intent)
+                                     Animatoo.animateFade(this);
+                                     this.finish()
+                                 }
+                                 .show()
+
+                         }
+                }
+                else {
                     Log.d(TAG, "Error: ${it.exception!!.message}")
                 }
+
             }
         return boolean
     }
@@ -263,11 +281,11 @@ class signup : AppCompatActivity() {
 
 
         val bookMap = HashMap<String, Any>()
-        bookMap["phone"] = phone
         bookMap["name"] = name
+        bookMap["phone"] = phone
 
         //add to firebase
-        firebaseFirestore.collection("users").add(bookMap).addOnCompleteListener{
+        firebaseFirestores.collection("users").add(bookMap).addOnCompleteListener{
             if(!it.isSuccessful){
                 Log.d(TAG, "Error: ${it.exception!!.message}")
             }
