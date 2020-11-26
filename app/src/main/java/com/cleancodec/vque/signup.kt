@@ -9,9 +9,11 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -44,7 +46,7 @@ class signup : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         //disable number and code
         editTextPhone.isEnabled = false
         editTextCode.isEnabled = false
@@ -61,7 +63,8 @@ class signup : AppCompatActivity() {
         {
             val intent = Intent(this@signup, signin::class.java)
             startActivity(intent)
-            this.finish();
+            Animatoo.animateSlideRight(this);
+            this.finish()
         }
 
         //initilize mAuth

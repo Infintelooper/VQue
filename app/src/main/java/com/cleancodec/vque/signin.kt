@@ -8,9 +8,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -44,7 +46,7 @@ class signin : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         //initilize mAuth
         mAuth = FirebaseAuth.getInstance()
 
@@ -140,6 +142,8 @@ class signin : AppCompatActivity() {
         {
             val intent = Intent(this@signin, signup::class.java)
             startActivity(intent)
+            Animatoo.animateSlideLeft(this);
+            this.finish()
         }
     }
 
