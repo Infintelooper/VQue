@@ -168,7 +168,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
         app:layout_constraintStart_toStartOf="@+id/email_txt_b"
         app:layout_constraintTop_toTopOf="@+id/email_txt_b"
-        app:srcCompat="@drawable/ic_mail_icon" />
+        app:srcCompat="@drawable/ic_baseline_phone_24"
+        app:tint="@color/black" />
 
 
 
@@ -198,7 +199,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/name_txt_b"
         app:layout_constraintStart_toStartOf="@+id/name_txt_b"
         app:layout_constraintTop_toTopOf="@+id/name_txt_b"
-        app:srcCompat="@drawable/ic_profile_icon" />
+        app:srcCompat="@drawable/ic_outline_person_24"
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/lock_icon"
@@ -210,7 +212,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/password_txt_b"
         app:layout_constraintStart_toStartOf="@+id/password_txt_b"
         app:layout_constraintTop_toTopOf="@+id/password_txt_b"
-        app:srcCompat="@drawable/ic_lock_icon" />
+        app:srcCompat="@drawable/ic_outline_lock_24"
+        app:tint="@color/black" />
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="244dp"
@@ -283,6 +286,7 @@
         android:gravity="center"
         android:text="+91"
         android:textSize="18sp"
+        android:textColor="@color/black"
         android:fontFamily="@font/roboto_medium"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
