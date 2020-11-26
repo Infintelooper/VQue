@@ -20,21 +20,21 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_signin.*
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_signup.*
-import kotlinx.android.synthetic.main.activity_signup.arrow_back
-import kotlinx.android.synthetic.main.activity_signup.editTextCode
-import kotlinx.android.synthetic.main.activity_signup.editTextPhone
-import kotlinx.android.synthetic.main.activity_signup.login_btn
-import kotlinx.android.synthetic.main.activity_signup.progressBarPhone
-import kotlinx.android.synthetic.main.activity_signup.sign_up_btn
-import kotlinx.android.synthetic.main.activity_signup.textViewTimer
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashMap
+import kotlin.collections.List
+import kotlin.collections.set
 
+
+private const val TAG:String = "FILESTORE SEARCH LOG"
 
 class signup : AppCompatActivity() {
 
     lateinit var _codeSent:String
+    private val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     //firebase Authenticator
     lateinit var mAuth: FirebaseAuth
@@ -51,13 +51,6 @@ class signup : AppCompatActivity() {
         editTextPhone.isEnabled = false
         editTextCode.isEnabled = false
 
-        //for shift to home screen
-        arrow_back.setOnClickListener()
-        {
-            val intent = Intent(this@signup, home::class.java)
-            startActivity(intent)
-            this.finish();
-        }
         //for shift to login screen
         login_btn.setOnClickListener()
         {
@@ -86,6 +79,13 @@ class signup : AppCompatActivity() {
                 before: Int, count: Int
             ) {
                 if (editTextPhone.text.toString().length == 10 && editTextName.text.toString().length >= 3) {
+
+                    var a:Boolean = searchInFirebase(editTextPhone.text.toString())
+
+                    if (searchInFirebase(editTextPhone.text.toString())) {
+
+                    } else
+                    {
                     //closeKeyBoard() // close keyboard
                     progressBarPhone.visibility = View.VISIBLE
                     textViewTimer.visibility = View.VISIBLE
@@ -110,7 +110,8 @@ class signup : AppCompatActivity() {
                     timer.start()
                     //timer code end
                     sentVerificationCode()
-                }
+                    }
+               }
             }
         })
         editTextCode.addTextChangedListener(object : TextWatcher {
@@ -167,7 +168,7 @@ class signup : AppCompatActivity() {
                 before: Int, count: Int
             ) {
                 if (editTextPhone.text.toString().length == 10) {
-                    editTextCode.isEnabled = true;
+                    //editTextCode.isEnabled = true;
                 }
             }
         })
@@ -183,9 +184,34 @@ class signup : AppCompatActivity() {
                 closeKeyBoard()
             }
         }
-
         //-------------------
 
+    }
+    private  fun searchInFirebase(phone: String) : Boolean{
+
+        var boolean:Boolean = false
+        //Search Query
+        firebaseFirestore.collection("users").whereArrayContains("phone", phone).get()
+            .addOnCompleteListener{
+
+                var searchList : List<SearchModel> = ArrayList()
+
+                if(it.isSuccessful){
+
+                    searchList = it.result!!.toObjects(SearchModel::class.java)
+                    if(searchList.contains(phone))
+                    {
+                        //phone no already registered.
+                        boolean = true
+                        editTextPhone.error = "Already Registered"
+                        Log.i("into :","user exusts")
+                        editTextName.requestFocus()
+                    }
+                }else{
+                    Log.d(TAG, "Error: ${it.exception!!.message}")
+                }
+            }
+        return boolean
     }
 
     private fun verifySignInCode() {
@@ -205,12 +231,19 @@ class signup : AppCompatActivity() {
                     startActivity(intent)
                     this.finish();
                         //code for add to DB register
-                            var phone = editTextPhone.text.toString()
-                            var name = editTextName.text.toString()
+                    var phone = editTextPhone.text.toString()
+                    var name = editTextName.text.toString()
 
-                            var helperClass = UserHelperClass(phone,name,phone)
+                    if(false){
+                        //for realtime DB
+                        var helperClass = UserHelperClass(phone, name, phone)
+                        myRef.child(phone).setValue(helperClass)
+                    }
+                    else{
+                        //for firestore DB
+                        addToFirestore(phone, name)
+                    }
 
-                            myRef.child(phone).setValue(helperClass)
                         //end code
                     //end code
                 } else {
@@ -226,11 +259,26 @@ class signup : AppCompatActivity() {
             }
     }
 
+    private fun addToFirestore(phone: String, name: String) {
+
+
+        val bookMap = HashMap<String, Any>()
+        bookMap["phone"] = phone
+        bookMap["name"] = name
+
+        //add to firebase
+        firebaseFirestore.collection("users").add(bookMap).addOnCompleteListener{
+            if(!it.isSuccessful){
+                Log.d(TAG, "Error: ${it.exception!!.message}")
+            }
+        }
+    }
+
     private fun sentVerificationCode() {
         var phone:String = editTextPhone.text.toString()
         //---------------
         phone  = "+91$phone"
-        Log.i("phone format",phone)
+        Log.i("phone format", phone)
         //-----------------
 
         if(phone.isEmpty())
@@ -285,6 +333,10 @@ class signup : AppCompatActivity() {
         ) {
             super.onCodeSent(verificationId, token)
             _codeSent = verificationId
+
+            editTextCode.isEnabled = true
+
+            Toast.makeText(this@signup, "Code Sent", Toast.LENGTH_SHORT).show()
         }
     }
 

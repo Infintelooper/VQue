@@ -22,7 +22,6 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
-import kotlinx.android.synthetic.main.activity_signin.arrow_back
 import kotlinx.android.synthetic.main.activity_signin.editTextCode
 import kotlinx.android.synthetic.main.activity_signin.editTextPhone
 import kotlinx.android.synthetic.main.activity_signin.login_btn
@@ -65,7 +64,7 @@ class signin : AppCompatActivity() {
                     progressBarPhone.visibility = View.VISIBLE
                     textViewTimer.visibility = View.VISIBLE
                     // timer code start
-                    var count = 61;
+                    var count = 61
                     textViewTimer.text = count.toString()
                     var timer = object: CountDownTimer(60000, 1000) {
                         override fun onTick(millisUntilFinished: Long) {
@@ -120,29 +119,23 @@ class signin : AppCompatActivity() {
                 before: Int, count: Int
             ) {
                 if(editTextPhone.text.toString().length == 10) {
-                    editTextCode.isEnabled = true;
+                    //editTextCode.isEnabled = true;
                 }
             }
         })
         //setup click listener for signin_btn
-        login_btn.setOnClickListener() {
+        login_btn.setOnClickListener {
             if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
                 verifySignInCode()
             }
         }
 
-        //for shift to home screen
-        arrow_back.setOnClickListener()
-        {
-            val intent = Intent(this@signin, home::class.java)
-            startActivity(intent)
-        }
         //for shift to signup screen
         sign_up_btn.setOnClickListener()
         {
             val intent = Intent(this@signin, signup::class.java)
             startActivity(intent)
-            Animatoo.animateSlideLeft(this);
+            Animatoo.animateSlideLeft(this)
             this.finish()
         }
     }
@@ -208,13 +201,13 @@ class signin : AppCompatActivity() {
         //-----------------
         if(phone.isEmpty())
         {
-            editTextPhone.setError("phone number is required")
+            editTextPhone.error = "phone number is required"
             editTextPhone.requestFocus()
             return
         }
         if(phone.length != 13 )
         {
-            editTextPhone.setError("please enter a valid phone")
+            editTextPhone.error = "please enter a valid phone"
             editTextPhone.requestFocus()
             return
         }
@@ -245,8 +238,10 @@ class signin : AppCompatActivity() {
             token: PhoneAuthProvider.ForceResendingToken
         ) {
             super.onCodeSent(verificationId, token)
+            editTextCode.isEnabled = true
             _codeSent = verificationId
-            Log.i("Code sent",_codeSent)
+
+            Toast.makeText(this@signin, "Code Sent", Toast.LENGTH_SHORT).show()
         }
     }
 

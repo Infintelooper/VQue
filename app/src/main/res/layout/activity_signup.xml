@@ -173,21 +173,6 @@
 
 
 
-    <ImageView
-        android:id="@+id/arrow_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="340dp"
-        android:layout_marginBottom="768dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_arrow_back" />
 
     <ImageView
         android:id="@+id/profile_icon"
@@ -248,6 +233,7 @@
         android:textSize="18sp"
         android:letterSpacing="1.9"
         android:maxLength="6"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="@+id/password_txt_b"
         app:layout_constraintEnd_toEndOf="@+id/password_txt_b"
         app:layout_constraintHorizontal_bias="0.7"
