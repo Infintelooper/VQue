@@ -96,25 +96,29 @@
         android:layout_marginTop="400dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/ic_sign_in_text_box"
+        android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/password_txt_b"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="0.857" />
-    <ProgressBar
+
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progressBarPhone"
-        style="?android:attr/progressBarStyle"
+        style="@style/SpinKitView.Small.Circle"
         android:layout_width="41dp"
         android:layout_height="39dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="5dp"
         android:visibility="invisible"
+        app:SpinKit_Color="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/editTextPhone"
         app:layout_constraintEnd_toEndOf="@+id/editTextPhone"
         app:layout_constraintTop_toTopOf="@+id/editTextPhone"
         app:layout_constraintVertical_bias="0.333" />
+
+
 
 
     <ImageView
@@ -127,7 +131,7 @@
         android:layout_marginTop="460dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/ic_sign_in_text_box"
+        android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -218,6 +222,8 @@
         android:background="@null"
         android:textSize="18sp"
         android:ems="10"
+        android:hint="##########"
+        android:fontFamily="@font/roboto_medium"
         android:maxLength="10"
         android:inputType="phone"
         app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
@@ -235,6 +241,7 @@
         android:layout_marginBottom="5dp"
         android:background="@null"
         android:ems="10"
+        android:fontFamily="@font/roboto_medium"
         android:inputType="phone"
         android:textSize="18sp"
         android:letterSpacing="1.9"
@@ -255,6 +262,7 @@
         android:gravity="center"
         android:text="+91"
         android:textSize="18sp"
+        android:fontFamily="@font/roboto_medium"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
         app:layout_constraintEnd_toStartOf="@+id/editTextPhone"
@@ -268,6 +276,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/progressBarPhone"
         app:layout_constraintEnd_toEndOf="@+id/progressBarPhone"
         app:layout_constraintStart_toStartOf="@+id/progressBarPhone"
