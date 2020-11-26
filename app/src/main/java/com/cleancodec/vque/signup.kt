@@ -35,7 +35,7 @@ private const val TAG:String = "FILESTORE SEARCH LOG"
 class signup : AppCompatActivity() {
 
     lateinit var _codeSent:String
-    private val firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
+    //private val firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseFirestores:FirebaseFirestore = FirebaseFirestore.getInstance()
 
     //firebase Authenticator

@@ -185,26 +185,24 @@
         app:tint="@color/black" />
 
 
-
-
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="244dp"
         android:layout_height="46dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
         android:background="@null"
-        android:textSize="18sp"
         android:ems="10"
-        android:hint="##########"
         android:fontFamily="@font/roboto_medium"
-        android:maxLength="10"
+        android:hint="##########"
         android:inputType="phone"
+        android:maxLength="10"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/email_txt_b"
         app:layout_constraintEnd_toEndOf="@+id/email_txt_b"
         app:layout_constraintTop_toTopOf="@+id/email_txt_b"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextCode"

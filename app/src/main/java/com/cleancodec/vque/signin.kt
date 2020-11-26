@@ -9,8 +9,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.firebase.FirebaseException
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.activity_signin.editTextCode
@@ -29,13 +32,15 @@ import kotlinx.android.synthetic.main.activity_signin.progressBarPhone
 import kotlinx.android.synthetic.main.activity_signin.sign_up_btn
 import kotlinx.android.synthetic.main.activity_signin.textViewTimer
 import kotlinx.android.synthetic.main.activity_signup.*
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.math.log
 
+private const val TAG:String = "FILESTORE SEARCH LOG"
 
 class signin : AppCompatActivity() {
 
-
+    private val firebaseFirestores: FirebaseFirestore = FirebaseFirestore.getInstance()
     lateinit var _codeSent:String
 
     //firebase Authenticator
@@ -61,30 +66,8 @@ class signin : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
                 if(editTextPhone.text.toString().length == 10) {
-                    progressBarPhone.visibility = View.VISIBLE
-                    textViewTimer.visibility = View.VISIBLE
-                    // timer code start
-                    var count = 61
-                    textViewTimer.text = count.toString()
-                    var timer = object: CountDownTimer(60000, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            editTextPhone.isEnabled = false
-                            sign_up_btn.isEnabled = false
-                            count--
-                            textViewTimer.text = count.toString()
-                        }
 
-                        override fun onFinish() {
-                            editTextPhone.isEnabled = true
-                            sign_up_btn.isEnabled = true
-                            progressBarPhone.visibility = View.INVISIBLE
-                            textViewTimer.visibility = View.INVISIBLE
-                        }
-                    }
-                    timer.start()
-                    //timer code end
-
-                    isUser(editTextPhone.text.toString())
+                    searchInFirebase(editTextPhone.text.toString())
                 }
             }
         })
@@ -99,7 +82,7 @@ class signin : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
                 if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
-
+                    closeKeyBoard()
                     verifySignInCode()
                 }
             }
@@ -119,6 +102,7 @@ class signin : AppCompatActivity() {
                 before: Int, count: Int
             ) {
                 if(editTextPhone.text.toString().length == 10) {
+                    closeKeyBoard()
                     //editTextCode.isEnabled = true;
                 }
             }
@@ -139,7 +123,71 @@ class signin : AppCompatActivity() {
             this.finish()
         }
     }
+    private fun initiateVerification(){
 
+        progressBarPhone.visibility = View.VISIBLE
+        textViewTimer.visibility = View.VISIBLE
+        // timer code start
+        var count = 61
+        textViewTimer.text = count.toString()
+        var timer = object: CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                editTextPhone.isEnabled = false
+                sign_up_btn.isEnabled = false
+                count--
+                textViewTimer.text = count.toString()
+            }
+
+            override fun onFinish() {
+                editTextPhone.isEnabled = true
+                sign_up_btn.isEnabled = true
+                progressBarPhone.visibility = View.INVISIBLE
+                textViewTimer.visibility = View.INVISIBLE
+            }
+        }
+        timer.start()
+        //timer code end
+        sentVerificationCode()
+        //isUser(editTextPhone.text.toString())
+    }
+    private  fun searchInFirebase(searchText: String){
+
+        var searchList : List<SearchModel> = ArrayList()
+        //Search Query
+        firebaseFirestores.collection("users").whereEqualTo("phone",searchText).limit(3).get()
+            .addOnCompleteListener {
+
+                if (it.isSuccessful) {
+                    searchList = it.result!!.toObjects(SearchModel::class.java)
+                    if(searchList.isEmpty()) {
+
+                        AlertDialog.Builder(this)
+                            .setTitle("User Not Exist")
+                            .setMessage("Do You Want To Register in to VQue App ?")
+                            .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
+
+                                //code to move to sign in page
+                                val intent = Intent(this@signin, signup::class.java)
+                                startActivity(intent)
+                                Animatoo.animateSlideLeft(this);
+                                this.finish()
+                            }
+                            .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+                                editTextPhone.text.clear()
+                            }
+                            .show()
+
+                    }
+                    else{
+                        initiateVerification()
+                    }
+                }
+                else {
+                    Log.d(TAG, "Error: ${it.exception!!.message}")
+                }
+
+            }
+    }
     fun isUser(phone:String) {
         //firebase setup
         val database = FirebaseDatabase.getInstance()
@@ -244,7 +292,13 @@ class signin : AppCompatActivity() {
             Toast.makeText(this@signin, "Code Sent", Toast.LENGTH_SHORT).show()
         }
     }
-
+    private fun closeKeyBoard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
 
 }
 

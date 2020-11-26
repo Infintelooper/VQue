@@ -9,7 +9,6 @@ import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import kotlinx.android.synthetic.main.activity_intro.*
-import kotlinx.android.synthetic.main.activity_landing.*
 
 class Intro : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,14 +19,14 @@ class Intro : AppCompatActivity() {
             .alpha(1f)
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 400
         Handler().postDelayed({
-            isAuthenticaed()
+            isAuthenticated()
         }, 5000)
     }
-    private fun isAuthenticaed(){
+    private fun isAuthenticated(){
 
         //check authentication
         val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
-        if(!preference.getBoolean("isAuthenticated",false))
+        if(preference.getBoolean("isAuthenticated",false))
         {
             val intent = Intent(this, landing::class.java)
             startActivity(intent)
