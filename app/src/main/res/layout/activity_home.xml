@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_home_bg"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -44,7 +44,7 @@
         app:layout_constraintGuide_end="20dp" />
     <!-- sign in btn -->
 
-    <ImageView
+    <Button
         android:id="@+id/login_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
@@ -53,16 +53,20 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="580dp"
         android:layout_marginEnd="12dp"
+
+        android:text="SIGN IN"
+        android:backgroundTint="@color/black"
+
         android:layout_marginBottom="30dp"
-        android:background="@drawable/ic_login_btn"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.882" />
+        app:layout_constraintVertical_bias="0.882"
+        tools:ignore="HardcodedText" />
 
-    <ImageView
+    <Button
         android:id="@+id/sign_up_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
@@ -71,14 +75,19 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="650dp"
         android:layout_marginEnd="12dp"
+        style="?attr/materialButtonOutlinedStyle"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/black"
+        android:text="SIGN UP"
+        android:textColor="@color/black"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/ic_sign_up_btn"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="HardcodedText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

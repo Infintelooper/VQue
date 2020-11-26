@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_sign_in_bg"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -47,7 +47,7 @@
 
     <!-- password txt bx -->
 
-    <ImageView
+    <Button
         android:id="@+id/login_btn"
         android:layout_width="344dp"
         android:layout_height="56dp"
@@ -57,8 +57,8 @@
         android:layout_marginTop="560dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="68dp"
-        android:elevation="10dp"
-        android:background="@drawable/ic_login_btn"
+        android:text="SIGN IN"
+        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.454"
@@ -67,23 +67,24 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
-    <ImageView
+    <Button
         android:id="@+id/sign_up_btn"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="344dp"
         android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="650dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/ic_sign_up_btn"
+        android:text="SIGN UP"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp" />
 
     <ImageView
         android:id="@+id/email_txt_b"
