@@ -231,6 +231,7 @@ class signin : AppCompatActivity() {
                     //start code for move to landing page
                     val intent = Intent(this@signin, landing::class.java)
                     startActivity(intent)
+                    this.finish()
                     //end code
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
