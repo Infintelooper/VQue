@@ -12,6 +12,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -24,6 +25,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_landing.*
@@ -172,6 +174,34 @@ class landing : AppCompatActivity() {
 
         }
         authentication() // code for enable auto login
+
+        //code for click events in toolbar menu items
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.help -> {
+                Toast.makeText(this@landing, "Help", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.logout -> {
+                AlertDialog.Builder(this)
+                    .setTitle("Log Out")
+                    .setMessage("Are you sure to logout ?")
+                    .setPositiveButton(android.R.string.yes) { dialog, whichButton ->
+                        //code for change login status in local storage
+                        notauthentication()
+                        super.onBackPressed()
+                    }
+                    .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+
+                    }
+                    .show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     //for toolbar
@@ -209,7 +239,16 @@ class landing : AppCompatActivity() {
         val editor=preference.edit()
         editor.putBoolean("isAuthenticated", true)
         editor.apply()
-
+    }
+    private fun notauthentication(){
+        //code for keep sign in the app
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preference.edit()
+        editor.putBoolean("isAuthenticated", false)
+        editor.apply()
     }
 
     private fun selectText() {
