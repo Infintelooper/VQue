@@ -11,6 +11,7 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -19,6 +20,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +40,9 @@ var name:String = ""
 
 class landing : AppCompatActivity() {
 
+    //toolbar
+    lateinit var xToolbar: Toolbar
+
     //firebase for search
     private val firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseFirestore:FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -49,6 +54,13 @@ class landing : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+
+        xToolbar = findViewById<Toolbar>(R.id.main_toolbar)
+        setSupportActionBar(xToolbar)
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false) //used to disable app name from toolbar
+        xToolbar.setTitle("")
+        xToolbar.setSubtitle("")
+
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         //check if user login in, require for accessing database
         if(firebaseAuth.currentUser == null){
@@ -160,6 +172,13 @@ class landing : AppCompatActivity() {
 
         }
         authentication() // code for enable auto login
+    }
+
+    //for toolbar
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 
     private fun makeSlipVisible(){

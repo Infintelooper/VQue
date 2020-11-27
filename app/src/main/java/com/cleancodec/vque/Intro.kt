@@ -26,7 +26,7 @@ class Intro : AppCompatActivity() {
 
         //check authentication
         val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
-        if(!preference.getBoolean("isAuthenticated",true))
+        if(preference.getBoolean("isAuthenticated",false))
         {
             val intent = Intent(this, landing::class.java)
             startActivity(intent)
