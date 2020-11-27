@@ -200,6 +200,24 @@ class landing : AppCompatActivity() {
                     .show()
                 true
             }
+            R.id.seller -> {
+                val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+                if(preference.getBoolean("applied",true))
+                {
+                    //code for check firestore
+                    if(false){
+                        //code for move to seller page
+                    }
+                    else{
+                        val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+                        Log.i("Expected Shop name", preference.getString("shop_name","defaultStringIfNothingFound").toString())
+                        pending()
+                    }
+                }else{
+                    showAlertDialog()
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -239,7 +257,19 @@ class landing : AppCompatActivity() {
         val editor=preference.edit()
         editor.putBoolean("isAuthenticated", true)
         editor.apply()
+
     }
+    private fun sellerApplied(){
+        //code for application to seller account
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preference.edit()
+        editor.putBoolean("applied", true)
+        editor.apply()
+    }
+
     private fun notauthentication(){
         //code for keep sign in the app
         val preference=getSharedPreferences(
@@ -317,7 +347,7 @@ class landing : AppCompatActivity() {
 
     private fun showAlertDialog(){
         val alertDialog:AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialog.setTitle("Add Merchant")
+        alertDialog.setTitle("Seller Account")
         alertDialog.setMessage("Enter shop name here")
 
         //add input
@@ -325,9 +355,18 @@ class landing : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         alertDialog.setView(input)
 
+        //for to add to local storage
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preference.edit()
+        editor.putString("shop_name", input.toString().toLowerCase())
+        editor.apply()
+
          // add positive button
          alertDialog.setPositiveButton(
-             "Add"
+             "Apply"
          ) { _, _ ->
          //Get value from  input field
          val inputText:String = input.text.toString()
@@ -347,6 +386,7 @@ class landing : AppCompatActivity() {
 
         val bookMap = HashMap<String, Any>()
         bookMap["title"] = inputText
+        bookMap["status"] = "pending"
         bookMap["search_keywords"] = searchKeywords
 
         //add to firebase
@@ -354,7 +394,25 @@ class landing : AppCompatActivity() {
             if(!it.isSuccessful){
                 Log.d(TAG, "Error: ${it.exception!!.message}")
             }
+            else{
+                sellerApplied()
+                pending()
+            }
         }
+    }
+    private fun pending(){
+        AlertDialog.Builder(this)
+            .setTitle("Status")
+            .setMessage("Pending..." +
+                    "Do you want to add more ?")
+            .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
+                showAlertDialog()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+
+            }
+
+            .show()
     }
 
     private fun generateSearchkeywords(inputText: String) : MutableList<String> {

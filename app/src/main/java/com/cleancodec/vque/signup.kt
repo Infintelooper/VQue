@@ -225,6 +225,16 @@ class signup : AppCompatActivity() {
 
             }
     }
+    private fun sellerNotApplied(){
+        //code for cancel application to seller account
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preference.edit()
+        editor.putBoolean("applied", false)
+        editor.apply()
+    }
 
     private fun verifySignInCode() {
         var code = editTextCode.text.toString()
@@ -254,6 +264,7 @@ class signup : AppCompatActivity() {
                     else{
                         //for firestore DB
                         addToFirestore(phone, name)
+                        sellerNotApplied()
                     }
 
                         //end code
