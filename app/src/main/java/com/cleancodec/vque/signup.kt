@@ -102,7 +102,7 @@ class signup : AppCompatActivity() {
                 before: Int, count: Int
             ) {
                 if (editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >3) {
-
+                    closeKeyBoard()
                     verifySignInCode()
                 }
             }
@@ -264,7 +264,7 @@ class signup : AppCompatActivity() {
                     else{
                         //for firestore DB
                         addToFirestore(phone, name,"none")
-                        //sellerNotApplied()
+                        sellerNotApplied()
                         //add phone to firestore
                             val preference=getSharedPreferences(
                                 resources.getString(R.string.app_name),

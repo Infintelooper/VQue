@@ -271,19 +271,50 @@ class landing : AppCompatActivity() {
 
         //code to update seller applied status with firestore
         val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
-
-        var phone:String = preference.getString("phone","0000000000").toString()
-            firebaseFirestore.collection("users").whereArrayContains("phone", phone).whereNotEqualTo(
+        var boolean:Boolean = false
+        var phone:String = preference.getString("phone","1111111111").toString()
+            firebaseFirestore.collection("users").whereEqualTo("phone", phone).whereNotEqualTo(
                 "shop",
                 "none"
             ).limit(
                 1
             ).get()
                 .addOnCompleteListener{
+                    boolean = true
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("TAG", "Error getting documents: ", exception)
+                }
+            Log.i("Info","Im done")
+
+        Handler().postDelayed(
+            {
+                if(boolean){
                     sellerApplied()
                 }
+                else{
+                    sellerNotApplied()
+                }
+                // This method will be executed once the timer is over
+            },
+            5000 // value in milliseconds
+        )
+
+
+
 
     }
+    private fun sellerNotApplied(){
+        //code for cancel application to seller account
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preference.edit()
+        editor.putBoolean("applied", false)
+        editor.apply()
+    }
+
     private fun sellerApplied(){
 
         //code for application to seller account in locally
@@ -452,14 +483,10 @@ class landing : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Status")
             .setMessage(
-                "Pending..." +
-                        "Do you want to add more ?"
+                "Pending..."
             )
             .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
-                showAlertDialog()
-            }
-            .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
-
+                //showAlertDialog()
             }
 
             .show()
