@@ -329,7 +329,7 @@ class landing : AppCompatActivity() {
 
     private fun searchInFirebase(searchText: String) {
         //Search Query
-        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords", searchText).limit(
+        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords", searchText).whereEqualTo("status","accepted").limit(
             3
         ).get()
             .addOnCompleteListener{
