@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Debug
 import android.os.Handler
 import android.text.Editable
 import android.text.InputType
@@ -22,16 +21,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.activity_signup.*
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.concurrent.schedule
 
 
 private const val TAG:String = "FILESTORE SEARCH LOG"
@@ -201,19 +203,28 @@ class landing : AppCompatActivity() {
                 true
             }
             R.id.seller -> {
-                val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
-                if(preference.getBoolean("applied",true))
-                {
+                val preference = getSharedPreferences(
+                    resources.getString(R.string.app_name),
+                    Context.MODE_PRIVATE
+                )
+                if (preference.getBoolean("applied", true)) {
                     //code for check firestore
-                    if(false){
+                    if (false) {
                         //code for move to seller page
-                    }
-                    else{
-                        val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
-                        Log.i("Expected Shop name", preference.getString("shop_name","defaultStringIfNothingFound").toString())
+                    } else {
+                        val preference = getSharedPreferences(
+                            resources.getString(R.string.app_name),
+                            Context.MODE_PRIVATE
+                        )
+                        Log.i(
+                            "Expected Shop name", preference.getString(
+                                "shop_name",
+                                "defaultStringIfNothingFound"
+                            ).toString()
+                        )
                         pending()
                     }
-                }else{
+                } else {
                     showAlertDialog()
                 }
                 true
@@ -250,17 +261,32 @@ class landing : AppCompatActivity() {
     }
     private fun authentication(){
         //code for keep sign in the app
-        val preference=getSharedPreferences(
+        val preferences=getSharedPreferences(
             resources.getString(R.string.app_name),
             Context.MODE_PRIVATE
         )
-        val editor=preference.edit()
+        val editor=preferences.edit()
         editor.putBoolean("isAuthenticated", true)
         editor.apply()
 
+        //code to update seller applied status with firestore
+        val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+
+        var phone:String = preference.getString("phone","0000000000").toString()
+            firebaseFirestore.collection("users").whereArrayContains("phone", phone).whereNotEqualTo(
+                "shop",
+                "none"
+            ).limit(
+                1
+            ).get()
+                .addOnCompleteListener{
+                    sellerApplied()
+                }
+
     }
     private fun sellerApplied(){
-        //code for application to seller account
+
+        //code for application to seller account in locally
         val preference=getSharedPreferences(
             resources.getString(R.string.app_name),
             Context.MODE_PRIVATE
@@ -268,6 +294,19 @@ class landing : AppCompatActivity() {
         val editor=preference.edit()
         editor.putBoolean("applied", true)
         editor.apply()
+
+    }
+    private fun changeShopinFirestore(phone: String, shop: String){
+
+        val complaintsRef: CollectionReference = firebaseFirestore.collection("users")
+        complaintsRef.whereEqualTo("phone", phone).get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    for (document in it.result!!) {
+                        firebaseFirestore.collection("users").document(document.id).update("shop",shop)
+                    }
+                }
+            }
     }
 
     private fun notauthentication(){
@@ -329,7 +368,10 @@ class landing : AppCompatActivity() {
 
     private fun searchInFirebase(searchText: String) {
         //Search Query
-        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords", searchText).whereEqualTo("status","accepted").limit(
+        firebaseFirestore.collection("merchants").whereArrayContains("search_keywords", searchText).whereEqualTo(
+            "status",
+            "accepted"
+        ).limit(
             3
         ).get()
             .addOnCompleteListener{
@@ -371,6 +413,12 @@ class landing : AppCompatActivity() {
          //Get value from  input field
          val inputText:String = input.text.toString()
 
+             //code for retrive phone from sharedpreferences
+             val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+             var phone:String = preference.getString("phone","0000000000").toString()
+
+             //update firestore
+             changeShopinFirestore(phone,inputText)
          //add data to firestore
          addToFirestore(inputText)
          }
@@ -403,8 +451,10 @@ class landing : AppCompatActivity() {
     private fun pending(){
         AlertDialog.Builder(this)
             .setTitle("Status")
-            .setMessage("Pending..." +
-                    "Do you want to add more ?")
+            .setMessage(
+                "Pending..." +
+                        "Do you want to add more ?"
+            )
             .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
                 showAlertDialog()
             }

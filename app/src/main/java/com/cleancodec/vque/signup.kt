@@ -263,8 +263,16 @@ class signup : AppCompatActivity() {
                     }
                     else{
                         //for firestore DB
-                        addToFirestore(phone, name)
-                        sellerNotApplied()
+                        addToFirestore(phone, name,"none")
+                        //sellerNotApplied()
+                        //add phone to firestore
+                            val preference=getSharedPreferences(
+                                resources.getString(R.string.app_name),
+                                Context.MODE_PRIVATE
+                            )
+                            val editor=preference.edit()
+                            editor.putString("phone", editTextPhone.text.toString())
+                            editor.apply()
                     }
 
                         //end code
@@ -282,12 +290,13 @@ class signup : AppCompatActivity() {
             }
     }
 
-    private fun addToFirestore(phone: String, name: String) {
+    private fun addToFirestore(phone: String, name: String,shop:String) {
 
 
         val bookMap = HashMap<String, Any>()
         bookMap["name"] = name
         bookMap["phone"] = phone
+        bookMap["shop"] = shop
 
         //add to firebase
         firebaseFirestores.collection("users").add(bookMap).addOnCompleteListener{

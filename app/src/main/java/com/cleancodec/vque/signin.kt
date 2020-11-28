@@ -1,5 +1,6 @@
 package com.cleancodec.vque
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -228,6 +229,15 @@ class signin : AppCompatActivity() {
 
                     //on login successfull activity
                     Toast.makeText(this@signin, "Login Successfull", Toast.LENGTH_SHORT).show()
+                        //add phone to firestore
+                        val preference=getSharedPreferences(
+                            resources.getString(R.string.app_name),
+                            Context.MODE_PRIVATE
+                        )
+                        val editor=preference.edit()
+                        editor.putString("phone", editTextPhone.text.toString())
+                        editor.apply()
+
                     //start code for move to landing page
                     val intent = Intent(this@signin, landing::class.java)
                     startActivity(intent)
