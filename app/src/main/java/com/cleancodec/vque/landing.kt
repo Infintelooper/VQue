@@ -179,8 +179,24 @@ class landing : AppCompatActivity() {
         authentication() // code for enable auto login
 
         //code for click events in toolbar menu items
-
+        pin.setOnClickListener{
+            if(pin.visibility == View.VISIBLE){
+                val preference = getSharedPreferences(
+                    resources.getString(R.string.app_name),
+                    Context.MODE_PRIVATE
+                )
+                if (preference.getBoolean("pinned", true)) {
+                    //code to remove pin
+                    unPin()
+                }
+                else{
+                    //code to make pin
+                    pin()
+                }
+            }
+        }
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -277,6 +293,35 @@ class landing : AppCompatActivity() {
         }
     }
 
+
+    private fun pin(){
+        Toast.makeText(this@landing, "Pinned", Toast.LENGTH_SHORT).show()
+
+        //change image
+        pin.setImageResource(R.drawable.ic_round_push_pin_24)
+
+        val preferences=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preferences.edit()
+        editor.putBoolean("pinned", true)
+        editor.apply()
+    }
+    private fun unPin(){
+        Toast.makeText(this@landing, "Unpinned", Toast.LENGTH_SHORT).show()
+
+        //change image
+        pin.setImageResource(R.drawable.ic_outline_push_pin_24)
+
+        val preferences=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        val editor=preferences.edit()
+        editor.putBoolean("pinned", false)
+        editor.apply()
+    }
     //for toolbar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -300,10 +345,45 @@ class landing : AppCompatActivity() {
         tokentime.animate()
             .alpha(1f)
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+        pin.animate()
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
         Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
 
     }
     private fun authentication(){
+
+        //code to check pin status
+
+        val preferencess = getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        if (preferencess.getBoolean("pinned", true)){
+
+            //make slip visible
+            tokenslip.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            tokenid.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            token.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            tokentime.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            pin.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+
+            pin()
+        }
+        else{
+            unPin()
+        }
+
         //code for keep sign in the app
         val preferences=getSharedPreferences(
             resources.getString(R.string.app_name),
