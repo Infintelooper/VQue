@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -222,7 +223,50 @@ class landing : AppCompatActivity() {
                                 "defaultStringIfNothingFound"
                             ).toString()
                         )
-                        pending()
+                        //code for check pending status from firestore
+                        val preferences = getSharedPreferences(
+                            resources.getString(R.string.app_name),
+                            Context.MODE_PRIVATE
+                        )
+                        var boolean:Boolean = false
+                        var shop:String = preferences.getString("shop_name","none").toString()
+                        Log.i("Shop name",shop)
+                        firebaseFirestore.collection("merchants").whereEqualTo("title", shop).orderBy("title").limit(
+                            2
+                        ).get()
+                            .addOnCompleteListener{
+
+                                //
+                                if (it.isSuccessful) {
+                                    for (document in it.result!!) {
+                                        if(document.getString("status").toString() == "accept")
+                                            boolean = true
+                                    }
+                                }
+
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d("TAG", "Error getting documents: ", exception)
+                            }
+
+                        Handler().postDelayed(
+                            {
+
+                                if(boolean){
+                                    //code to move to seller page
+                                    val intent = Intent(this, seller::class.java)
+                                    startActivity(intent)
+                                    Animatoo.animateSlideLeft(this)
+                                    this.finish()
+                                }
+                                else
+                                {
+                                    pending()
+                                }
+                            },
+                            3000 // value in milliseconds
+                        )
+
                     }
                 } else {
                     showAlertDialog()

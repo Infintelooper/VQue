@@ -110,8 +110,8 @@ class signin : AppCompatActivity() {
         })
         //setup click listener for signin_btn
         login_btn.setOnClickListener {
-            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6) {
-                verifySignInCode()
+            if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && textViewTimer.visibility == View.VISIBLE) {
+               // verifySignInCode()
             }
         }
 
