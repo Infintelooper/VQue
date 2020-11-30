@@ -222,9 +222,11 @@ class landing : AppCompatActivity() {
         //retrieve date
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             var date:String = sdf.format(Date()).toString()
+        //retrieve from local storage
+        var user:String = preference.getString("phone", "0000000000").toString()
         //retrieve from firestore
             var shop:String = "0000000000"
-            firebaseFirestore.collection("merchants").whereEqualTo("title", shop_search_editText.text).limit(
+            firebaseFirestore.collection("merchants").whereEqualTo("title", shop_search_editText.text.toString()).limit(
                 1
             ).get()
                 .addOnCompleteListener{
@@ -233,26 +235,31 @@ class landing : AppCompatActivity() {
                     if (it.isSuccessful) {
                         for (document in it.result!!) {
                             shop = document.getString("phone").toString()
+                            Handler().postDelayed({
+                                Handler().postDelayed({
+
+                                    Log.i("Date is  :",date)
+                                    Log.i("shop is  :",shop)
+                                    Log.i("user is  :",user)
+
+                                    if(shop.equals(user,false)){
+                                        //code to proceed
+                                        Log.i("Date is  :",date)
+                                        Log.i("shop is  :",shop)
+                                        Log.i("user is  :",user)
+                                    }
+                                }, 300)
+                                //make loading invisible
+                                spin_kit.visibility = View.INVISIBLE
+                            }, 2000)
                         }
                     }
 
                 }
-        //retrieve from local storage
-            var user:String = preference.getString("phone", "0000000000").toString()
+
 
         //set some delay for retrieve data
-        Handler().postDelayed({
-            Handler().postDelayed({
-                if(shop.equals(user,false)){
-                    //code to proceed
-                    Log.i("Date is  :",date)
-                    Log.i("shop is  :",shop)
-                    Log.i("user is  :",user)
-                }
-            }, 300)
-            //make loading invisible
-            spin_kit.visibility = View.INVISIBLE
-        }, 2000)
+
 
 
 
