@@ -1,5 +1,6 @@
-package com.cleancodec.vque
+    package com.cleancodec.vque
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.activity_signup.*
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -160,7 +162,7 @@ class landing : AppCompatActivity() {
         //}
         generate.setOnClickListener {
 
-
+            generateToken()
             //disbale generate button
             generate.alpha = 0f
             generate.isClickable = false
@@ -195,6 +197,65 @@ class landing : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun generateToken(){
+        //create a new collection in firestore with name ' token'  and contains ' id,token,date' + 'shop no,user no. shop no and user no not should be same
+        addToFirestoreToken()
+        //token should be incremented with 1 for same shop
+        //store it on local storage
+        //pin token
+    }
+    private fun deleteToken(){
+        //remove token from local storage
+        //unpin token
+    }
+    @SuppressLint("SimpleDateFormat")
+    private fun addToFirestoreToken(){
+
+        val preference = getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+         var id:String
+         var token:String
+        //retrieve date
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            var date:String = sdf.format(Date()).toString()
+        //retrieve from firestore
+            var shop:String = "0000000000"
+            firebaseFirestore.collection("merchants").whereEqualTo("title", shop_search_editText.text).limit(
+                1
+            ).get()
+                .addOnCompleteListener{
+
+                    //
+                    if (it.isSuccessful) {
+                        for (document in it.result!!) {
+                            shop = document.getString("phone").toString()
+                        }
+                    }
+
+                }
+        //retrieve from local storage
+            var user:String = preference.getString("phone", "0000000000").toString()
+
+        //set some delay for retrieve data
+        Handler().postDelayed({
+            Handler().postDelayed({
+                if(shop.equals(user,false)){
+                    //code to proceed
+                    Log.i("Date is  :",date)
+                    Log.i("shop is  :",shop)
+                    Log.i("user is  :",user)
+                }
+            }, 300)
+            //make loading invisible
+            spin_kit.visibility = View.INVISIBLE
+        }, 2000)
+
+
+
     }
 
 
@@ -501,7 +562,6 @@ class landing : AppCompatActivity() {
         }
     }
     fun updateText(name: String){
-        Log.i("Hai", name)
         shop_search_editText.setText(name)
         shop_search_editText.clearFocus()
         search_bar_extended.animate()
@@ -584,12 +644,19 @@ class landing : AppCompatActivity() {
 
     private fun addToFirestore(inputText: String) {
 
+        //get phone from local storage
+        val preference = getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        var phone:String = preference.getString("phone", "0000000000").toString()
         //keywords
         val searchKeywords = generateSearchkeywords(inputText)
 
         val bookMap = HashMap<String, Any>()
         bookMap["title"] = inputText
         bookMap["status"] = "pending"
+        bookMap["phone"] = phone
         bookMap["search_keywords"] = searchKeywords
 
         //add to firebase
