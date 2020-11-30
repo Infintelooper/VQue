@@ -148,7 +148,7 @@ class signup : AppCompatActivity() {
         //setup click listener for signin_btn
         sign_up_btn.setOnClickListener {
             if(editTextPhone.text.toString().length == 10 && editTextCode.text.toString().length == 6 && editTextName.text.toString().length >3 ) {
-                verifySignInCode()
+                //verifySignInCode()
             }
         }
         //-------------------

@@ -1,10 +1,7 @@
     package com.cleancodec.vque
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -25,21 +22,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.activity_signup.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
 
-private const val TAG:String = "FILESTORE SEARCH LOG"
+    private const val TAG:String = "FILESTORE SEARCH LOG"
 
 //for shop select
 var selected:Boolean = false
@@ -226,7 +218,10 @@ class landing : AppCompatActivity() {
         var user:String = preference.getString("phone", "0000000000").toString()
         //retrieve from firestore
             var shop:String = "0000000000"
-            firebaseFirestore.collection("merchants").whereEqualTo("title", shop_search_editText.text.toString()).limit(
+            firebaseFirestore.collection("merchants").whereEqualTo(
+                "title",
+                shop_search_editText.text.toString()
+            ).limit(
                 1
             ).get()
                 .addOnCompleteListener{
@@ -238,15 +233,15 @@ class landing : AppCompatActivity() {
                             Handler().postDelayed({
                                 Handler().postDelayed({
 
-                                    Log.i("Date is  :",date)
-                                    Log.i("shop is  :",shop)
-                                    Log.i("user is  :",user)
+                                    Log.i("Date is  :", date)
+                                    Log.i("shop is  :", shop)
+                                    Log.i("user is  :", user)
 
-                                    if(shop.equals(user,false)){
+                                    if (shop.equals(user, false)) {
                                         //code to proceed
-                                        Log.i("Date is  :",date)
-                                        Log.i("shop is  :",shop)
-                                        Log.i("user is  :",user)
+                                        Log.i("Date is  :", date)
+                                        Log.i("shop is  :", shop)
+                                        Log.i("user is  :", user)
                                     }
                                 }, 300)
                                 //make loading invisible
@@ -280,6 +275,14 @@ class landing : AppCompatActivity() {
                         //code for change login status in local storage
                         notauthentication()
                         super.onBackPressed()
+
+                        //clear local storage
+                        val preferences: SharedPreferences =
+                            getSharedPreferences(R.string.app_name.toString(), MODE_PRIVATE)
+                        val editor: SharedPreferences.Editor = preferences.edit()
+                        editor.clear()
+                        editor.apply()
+                        finish()
                     }
                     .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
 
@@ -312,47 +315,61 @@ class landing : AppCompatActivity() {
                             resources.getString(R.string.app_name),
                             Context.MODE_PRIVATE
                         )
-                        var boolean:Boolean = false
-                        var shop:String = preferences.getString("shop_name","none").toString()
-                        Log.i("Shop name",shop)
-                        firebaseFirestore.collection("merchants").whereEqualTo("title", shop).orderBy("title").limit(
-                            2
-                        ).get()
-                            .addOnCompleteListener{
+                        var boolean: Boolean = false
+                        var boolean2: Boolean = false
+                        var shop: String = preferences.getString("shop_name", "sample").toString()
+                        Log.i("Shop name", shop)
+                        if (shop != "sample") {
+                            firebaseFirestore.collection("merchants").whereEqualTo("title", shop)
+                                .orderBy(
+                                    "title"
+                                ).limit(
+                                    2
+                                ).get()
+                                .addOnCompleteListener {
 
-                                //
-                                if (it.isSuccessful) {
-                                    for (document in it.result!!) {
-                                        if(document.getString("status").toString() == "accept")
-                                            boolean = true
+                                    //
+                                    if (it.isSuccessful) {
+                                        for (document in it.result!!) {
+                                            if (document.getString("status").toString() == "accept")
+                                                boolean = true
+                                            if (document.getString("status")
+                                                    .toString() == "pending"
+                                            )
+                                                boolean = false
+                                            if (document.getString("status").toString() == "none")
+                                                boolean2 = true
+                                        }
                                     }
+
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.d("TAG", "Error getting documents: ", exception)
                                 }
 
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.d("TAG", "Error getting documents: ", exception)
-                            }
-
-                        Handler().postDelayed(
-                            {
-
-                                if(boolean){
-                                    //code to move to seller page
-                                    val intent = Intent(this, seller::class.java)
-                                    startActivity(intent)
-                                    Animatoo.animateSlideLeft(this)
-                                    this.finish()
-                                }
-                                else
+                            Handler().postDelayed(
                                 {
-                                    pending()
-                                }
-                            },
-                            3000 // value in milliseconds
-                        )
 
+                                    if (boolean) {
+                                        //code to move to seller page
+                                        val intent = Intent(this, seller::class.java)
+                                        startActivity(intent)
+                                        Animatoo.animateSlideLeft(this)
+                                        this.finish()
+                                    } else if (boolean2) {
+                                        showAlertDialog()
+                                    } else {
+                                        pending()
+                                    }
+                                },
+                                3000 // value in milliseconds
+                            )
+
+                        } else {
+                            showAlertDialog()
+                        }
                     }
-                } else {
+                }else {
                     showAlertDialog()
                 }
                 true
@@ -462,9 +479,12 @@ class landing : AppCompatActivity() {
         editor.apply()
 
         //code to update seller applied status with firestore
-        val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
+        val preference=getSharedPreferences(
+            resources.getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
         var boolean:Boolean = false
-        var phone:String = preference.getString("phone","1111111111").toString()
+        var phone:String = preference.getString("phone", "1111111111").toString()
             firebaseFirestore.collection("users").whereEqualTo("phone", phone).whereNotEqualTo(
                 "shop",
                 "none"
@@ -477,14 +497,13 @@ class landing : AppCompatActivity() {
                 .addOnFailureListener { exception ->
                     Log.d("TAG", "Error getting documents: ", exception)
                 }
-            Log.i("Info","Im done")
+            Log.i("Info", "Im done")
 
         Handler().postDelayed(
             {
-                if(boolean){
+                if (boolean) {
                     sellerApplied()
-                }
-                else{
+                } else {
                     sellerNotApplied()
                 }
                 // This method will be executed once the timer is over
@@ -526,7 +545,10 @@ class landing : AppCompatActivity() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     for (document in it.result!!) {
-                        firebaseFirestore.collection("users").document(document.id).update("shop",shop)
+                        firebaseFirestore.collection("users").document(document.id).update(
+                            "shop",
+                            shop
+                        )
                     }
                 }
             }
@@ -636,11 +658,14 @@ class landing : AppCompatActivity() {
          val inputText:String = input.text.toString()
 
              //code for retrive phone from sharedpreferences
-             val preference=getSharedPreferences(resources.getString(R.string.app_name), Context.MODE_PRIVATE)
-             var phone:String = preference.getString("phone","0000000000").toString()
+             val preference=getSharedPreferences(
+                 resources.getString(R.string.app_name),
+                 Context.MODE_PRIVATE
+             )
+             var phone:String = preference.getString("phone", "0000000000").toString()
 
              //update firestore
-             changeShopinFirestore(phone,inputText)
+             changeShopinFirestore(phone, inputText)
          //add data to firestore
          addToFirestore(inputText)
          }
