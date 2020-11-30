@@ -167,7 +167,7 @@ class landing : AppCompatActivity() {
                 }, 300)
                 //make loading invisible
                 spin_kit.visibility = View.INVISIBLE
-            }, 2000)
+            }, 3000)
 
         }
         authentication() // code for enable auto login
@@ -233,15 +233,11 @@ class landing : AppCompatActivity() {
                             Handler().postDelayed({
                                 Handler().postDelayed({
 
-                                    Log.i("Date is  :", date)
-                                    Log.i("shop is  :", shop)
-                                    Log.i("user is  :", user)
-
-                                    if (shop.equals(user, false)) {
+                                    if (shop!= user) {
                                         //code to proceed
-                                        Log.i("Date is  :", date)
-                                        Log.i("shop is  :", shop)
-                                        Log.i("user is  :", user)
+                                        tokentime.text = date
+                                        id = (shop.takeLast(4))+(user.takeLast(4))
+                                        tokenid.text = id
                                     }
                                 }, 300)
                                 //make loading invisible
@@ -252,8 +248,8 @@ class landing : AppCompatActivity() {
 
                 }
 
+        //token number generation
 
-        //set some delay for retrieve data
 
 
 
