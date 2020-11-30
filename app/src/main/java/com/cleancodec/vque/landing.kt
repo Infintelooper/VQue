@@ -210,7 +210,7 @@ class landing : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
          var id:String
-         var token:String
+         var tokens:String
         //retrieve date
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             var date:String = sdf.format(Date()).toString()
@@ -249,8 +249,33 @@ class landing : AppCompatActivity() {
                 }
 
         //token number generation
+        var maxToken:Int = 0
+        firebaseFirestore.collection("token").whereEqualTo(
+            "shop",
+            shop
+        ).get()
 
 
+            .addOnCompleteListener{
+                if (it.isSuccessful) {
+                    for (document in it.result!!) {
+                        if (document.getString("date").toString() == date && maxToken < document.getLong("token")!!) {
+                                maxToken = document.getLong("token")!!.toInt()
+                                tokens = maxToken.toString()
+                                token.text = tokens
+                            }
+                        else{
+                            tokens = maxToken.toString()
+                            token.text = tokens
+                        }
+                    }
+                }
+                else{
+                    tokens = maxToken.toString()
+                    token.text = tokens
+                }
+
+            }
 
 
 
