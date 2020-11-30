@@ -254,41 +254,44 @@ class landing : AppCompatActivity() {
                                             }
                                         }
                                         //end of code
+                                        //token number generation
+                                        var maxToken:Int = 1
+                                        firebaseFirestore.collection("token").whereEqualTo(
+                                            "shop",
+                                            shop
+                                        ).get()
+
+                                            .addOnCompleteListener{
+                                                if (it.isSuccessful) {
+                                                    for (document in it.result!!) {
+                                                        if (document.getString("date").toString() == date && maxToken < document.getString("token")!!.toInt()) {
+                                                            maxToken = document.getString("token")!!.toInt() + 1
+                                                            tokens = (document.getString("token")!!.toInt() + 1).toString()
+
+                                                        }
+                                                    }
+                                                    if(maxToken < 10)
+                                                        token.text = "00$maxToken"
+                                                    else if(maxToken<100)
+                                                        token.text = "0$maxToken"
+                                                    else
+                                                        token.text = maxToken.toString()
+
+                                                    tokens = maxToken.toString()
+                                                }
+
+                                            }
                                     }
                                 }, 300)
                                 //make loading invisible
                                 spin_kit.visibility = View.INVISIBLE
-                            }, 2000)
+                            }, 3000)
                         }
                     }
 
                 }
 
-        //token number generation
-        var maxToken:Int = 1
-        firebaseFirestore.collection("token").whereEqualTo(
-            "shop",
-            shop
-        ).get()
 
-            .addOnCompleteListener{
-                if (it.isSuccessful) {
-                    for (document in it.result!!) {
-                        if (document.getString("date").toString() == date && maxToken < document.getLong("token")!!) {
-                                maxToken = document.getLong("token")!!.toInt() + 1
-                            }
-                        }
-                    if(maxToken < 10)
-                        token.text = "00$maxToken"
-                    else if(maxToken<100)
-                        token.text = "0$maxToken"
-                    else
-                        token.text = maxToken.toString()
-
-                    tokens = maxToken.toString()
-                    }
-
-            }
 
 
     }
