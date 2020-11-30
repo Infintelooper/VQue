@@ -236,6 +236,7 @@
         android:alpha="0"
         android:fontFamily="@font/roboto_black"
         android:text="117"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="96sp"
         android:textStyle="bold"

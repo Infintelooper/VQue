@@ -202,15 +202,15 @@ class landing : AppCompatActivity() {
         //remove token from local storage
         //unpin token
     }
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun addToFirestoreToken(){
 
         val preference = getSharedPreferences(
             resources.getString(R.string.app_name),
             Context.MODE_PRIVATE
         )
-         var id:String
-         var tokens:String
+         var id:String = "0"
+         var tokens:String = "0"
         //retrieve date
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             var date:String = sdf.format(Date()).toString()
@@ -238,6 +238,22 @@ class landing : AppCompatActivity() {
                                         tokentime.text = date
                                         id = (shop.takeLast(4))+(user.takeLast(4))
                                         tokenid.text = id
+
+                                        //code to add to firestore
+                                        val bookMap = HashMap<String, Any>()
+                                        bookMap["id"] = id
+                                        bookMap["token"] = tokens
+                                        bookMap["date"] = date
+                                        bookMap["shop"] = shop
+                                        bookMap["user"] = user
+
+                                        //add to firebase
+                                        firebaseFirestore.collection("token").add(bookMap).addOnCompleteListener{
+                                            if(!it.isSuccessful){
+                                                Log.d(TAG, "Error: ${it.exception!!.message}")
+                                            }
+                                        }
+                                        //end of code
                                     }
                                 }, 300)
                                 //make loading invisible
@@ -249,34 +265,30 @@ class landing : AppCompatActivity() {
                 }
 
         //token number generation
-        var maxToken:Int = 0
+        var maxToken:Int = 1
         firebaseFirestore.collection("token").whereEqualTo(
             "shop",
             shop
         ).get()
 
-
             .addOnCompleteListener{
                 if (it.isSuccessful) {
                     for (document in it.result!!) {
                         if (document.getString("date").toString() == date && maxToken < document.getLong("token")!!) {
-                                maxToken = document.getLong("token")!!.toInt()
-                                tokens = maxToken.toString()
-                                token.text = tokens
+                                maxToken = document.getLong("token")!!.toInt() + 1
                             }
-                        else{
-                            tokens = maxToken.toString()
-                            token.text = tokens
                         }
-                    }
-                }
-                else{
+                    if(maxToken < 10)
+                        token.text = "00$maxToken"
+                    else if(maxToken<100)
+                        token.text = "0$maxToken"
+                    else
+                        token.text = maxToken.toString()
+
                     tokens = maxToken.toString()
-                    token.text = tokens
-                }
+                    }
 
             }
-
 
 
     }
