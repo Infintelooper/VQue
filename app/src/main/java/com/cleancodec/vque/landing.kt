@@ -1,4 +1,25 @@
-    package com.cleancodec.vque
+
+
+Skip to content
+Using Gmail with screen readers
+Meet
+New meeting
+Join a meeting
+Hangouts
+
+1 of 734
+none
+Inbox
+
+Akhil Reji <akhil.reji141@gmail.com>
+Attachments
+12:58 (0 minutes ago)
+to me
+
+
+Attachments area
+
+package com.cleancodec.vque
 
 import android.annotation.SuppressLint
 import android.content.*
@@ -31,7 +52,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-    private const val TAG:String = "FILESTORE SEARCH LOG"
+private const val TAG:String = "FILESTORE SEARCH LOG"
 
 //for shop select
 var selected:Boolean = false
@@ -150,7 +171,7 @@ class landing : AppCompatActivity() {
 
         //code for add contents
         //generate.setOnClickListener {
-          //  showAlertDialog()
+        //  showAlertDialog()
         //}
         generate.setOnClickListener {
 
@@ -162,12 +183,13 @@ class landing : AppCompatActivity() {
             spin_kit.visibility = View.VISIBLE
 
             Handler().postDelayed({
-                Handler().postDelayed({
-                    makeSlipVisible()
-                }, 300)
+
                 //make loading invisible
                 spin_kit.visibility = View.INVISIBLE
-            }, 3000)
+            }, 4300)
+            Handler().postDelayed({
+                makeSlipVisible()
+            },4500)
 
         }
         authentication() // code for enable auto login
@@ -209,87 +231,106 @@ class landing : AppCompatActivity() {
             resources.getString(R.string.app_name),
             Context.MODE_PRIVATE
         )
-         var id:String = "0"
-         var tokens:String = "0"
+        var id:String = "0"
+        var tokens:String = "0"
         //retrieve date
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
-            var date:String = sdf.format(Date()).toString()
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        var date:String = sdf.format(Date()).toString()
         //retrieve from local storage
         var user:String = preference.getString("phone", "0000000000").toString()
         //retrieve from firestore
-            var shop:String = "0000000000"
-            firebaseFirestore.collection("merchants").whereEqualTo(
-                "title",
-                shop_search_editText.text.toString()
-            ).limit(
-                1
-            ).get()
-                .addOnCompleteListener{
+        var shop:String = "0000000000"
+        firebaseFirestore.collection("merchants").whereEqualTo(
+            "title",
+            shop_search_editText.text.toString()
+        ).limit(
+            1
+        ).get()
+            .addOnCompleteListener{
 
-                    //
-                    if (it.isSuccessful) {
-                        for (document in it.result!!) {
-                            shop = document.getString("phone").toString()
+                //
+                if (it.isSuccessful) {
+                    for (document in it.result!!) {
+                        shop = document.getString("phone").toString()
+                        Handler().postDelayed({
                             Handler().postDelayed({
-                                Handler().postDelayed({
 
-                                    if (shop!= user) {
-                                        //code to proceed
-                                        tokentime.text = date
-                                        id = (shop.takeLast(4))+(user.takeLast(4))
-                                        tokenid.text = id
+                                if (shop!= user) {
+                                    //code to proceed
+                                    tokentime.text = date
+                                    id = (shop.takeLast(4))+(user.takeLast(4))
+                                    tokenid.text = id
 
-                                        //code to add to firestore
-                                        val bookMap = HashMap<String, Any>()
-                                        bookMap["id"] = id
-                                        bookMap["token"] = tokens
-                                        bookMap["date"] = date
-                                        bookMap["shop"] = shop
-                                        bookMap["user"] = user
 
-                                        //add to firebase
-                                        firebaseFirestore.collection("token").add(bookMap).addOnCompleteListener{
-                                            if(!it.isSuccessful){
-                                                Log.d(TAG, "Error: ${it.exception!!.message}")
-                                            }
-                                        }
-                                        //end of code
-                                        //token number generation
-                                        var maxToken:Int = 1
-                                        firebaseFirestore.collection("token").whereEqualTo(
-                                            "shop",
-                                            shop
-                                        ).get()
+                                    //token number generation
+                                    var maxToken:Int = 1
+                                    firebaseFirestore.collection("token").whereEqualTo(
+                                        "shop",
+                                        shop
+                                    ).get()
 
-                                            .addOnCompleteListener{
-                                                if (it.isSuccessful) {
-                                                    for (document in it.result!!) {
-                                                        if (document.getString("date").toString() == date && maxToken < document.getString("token")!!.toInt()) {
-                                                            maxToken = document.getString("token")!!.toInt() + 1
-                                                            tokens = (document.getString("token")!!.toInt() + 1).toString()
+                                        .addOnCompleteListener{
+                                            if (it.isSuccessful) {
+                                                for (document in it.result!!) {
+                                                    if (document.getString("date").toString() == date ){
 
+
+                                                        Log.i("token :",document.getString("token").toString())
+                                                        if(maxToken <= document.getString("token")!!.toInt()) {
+
+
+                                                            maxToken =
+                                                                document.getString("token")!!
+                                                                    .toInt() + 1
+                                                            tokens =
+                                                                (document.getString("token")!!
+                                                                    .toInt() + 1).toString()
                                                         }
+
                                                     }
-                                                    if(maxToken < 10)
-                                                        token.text = "00$maxToken"
-                                                    else if(maxToken<100)
-                                                        token.text = "0$maxToken"
-                                                    else
-                                                        token.text = maxToken.toString()
-
-                                                    tokens = maxToken.toString()
                                                 }
+                                                if(maxToken < 10)
+                                                    token.text = "00$maxToken"
+                                                else if(maxToken<100)
+                                                    token.text = "0$maxToken"
+                                                else
+                                                    token.text = maxToken.toString()
 
+                                                tokens = maxToken.toString()
+
+                                                Handler().postDelayed({
+                                                    //code to add to firestore
+                                                    val bookMap = HashMap<String, Any>()
+                                                    bookMap["id"] = id
+                                                    bookMap["token"] = tokens
+                                                    bookMap["date"] = date
+                                                    bookMap["shop"] = shop
+                                                    bookMap["user"] = user
+
+                                                    //add to firebase
+                                                    firebaseFirestore.collection("token")
+                                                        .add(bookMap).addOnCompleteListener {
+                                                            if (!it.isSuccessful) {
+                                                                Log.d(
+                                                                    TAG,
+                                                                    "Error: ${it.exception!!.message}"
+                                                                )
+                                                            }
+                                                        }
+                                                    //end of code
+                                                },2000)
                                             }
-                                    }
-                                }, 300)
-                                //make loading invisible
-                                spin_kit.visibility = View.INVISIBLE
-                            }, 3000)
-                        }
-                    }
 
+                                        }
+                                }
+                            }, 300)
+                            //make loading invisible
+                            spin_kit.visibility = View.INVISIBLE
+                        }, 3000)
+                    }
                 }
+
+            }
 
 
 
@@ -521,19 +562,19 @@ class landing : AppCompatActivity() {
         )
         var boolean:Boolean = false
         var phone:String = preference.getString("phone", "1111111111").toString()
-            firebaseFirestore.collection("users").whereEqualTo("phone", phone).whereNotEqualTo(
-                "shop",
-                "none"
-            ).limit(
-                1
-            ).get()
-                .addOnCompleteListener{
-                    boolean = true
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("TAG", "Error getting documents: ", exception)
-                }
-            Log.i("Info", "Im done")
+        firebaseFirestore.collection("users").whereEqualTo("phone", phone).whereNotEqualTo(
+            "shop",
+            "none"
+        ).limit(
+            1
+        ).get()
+            .addOnCompleteListener{
+                boolean = true
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "Error getting documents: ", exception)
+            }
+        Log.i("Info", "Im done")
 
         Handler().postDelayed(
             {
@@ -686,25 +727,25 @@ class landing : AppCompatActivity() {
         editor.putString("shop_name", input.toString().toLowerCase())
         editor.apply()
 
-         // add positive button
-         alertDialog.setPositiveButton(
-             "Apply"
-         ) { _, _ ->
-         //Get value from  input field
-         val inputText:String = input.text.toString()
+        // add positive button
+        alertDialog.setPositiveButton(
+            "Apply"
+        ) { _, _ ->
+            //Get value from  input field
+            val inputText:String = input.text.toString()
 
-             //code for retrive phone from sharedpreferences
-             val preference=getSharedPreferences(
-                 resources.getString(R.string.app_name),
-                 Context.MODE_PRIVATE
-             )
-             var phone:String = preference.getString("phone", "0000000000").toString()
+            //code for retrive phone from sharedpreferences
+            val preference=getSharedPreferences(
+                resources.getString(R.string.app_name),
+                Context.MODE_PRIVATE
+            )
+            var phone:String = preference.getString("phone", "0000000000").toString()
 
-             //update firestore
-             changeShopinFirestore(phone, inputText)
-         //add data to firestore
-         addToFirestore(inputText)
-         }
+            //update firestore
+            changeShopinFirestore(phone, inputText)
+            //add data to firestore
+            addToFirestore(inputText)
+        }
 
         //Show alert dialog
         alertDialog.show()
@@ -776,17 +817,19 @@ class landing : AppCompatActivity() {
 
     override fun onBackPressed()
     {
-                AlertDialog.Builder(this)
-                    .setTitle("Exit Alert")
-                    .setMessage("Do You Want To Exit VQue App?")
-                    .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
-                        super.onBackPressed()
-                    }
-                    .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+        AlertDialog.Builder(this)
+            .setTitle("Exit Alert")
+            .setMessage("Do You Want To Exit VQue App?")
+            .setPositiveButton(android.R.string.ok) { dialog, whichButton ->
+                super.onBackPressed()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
 
-                    }
-                    .show()
+            }
+            .show()
 
-        }
+    }
 
 }
+h.txt
+Displaying h.txt.
