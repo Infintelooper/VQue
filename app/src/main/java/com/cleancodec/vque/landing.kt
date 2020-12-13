@@ -190,6 +190,33 @@ class landing : AppCompatActivity() {
                 }
             }
         }
+        delete_red.setOnClickListener{
+            shop_search_editText.isEnabled = true
+            delete_red.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            delete_red.isClickable = false
+
+            tokenslip.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            tokenid.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            token.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            tokentime.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            pin.animate()
+                .alpha(0f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            Toast.makeText(this@landing, "Token Deleted", Toast.LENGTH_SHORT).show()
+            unPin()
+
+            shop_search_editText.text.clear()
+        }
     }
 
     private fun generateToken(){
@@ -237,10 +264,10 @@ class landing : AppCompatActivity() {
                                     if (shop!= user) {
                                         //code to proceed
                                         tokentime.text = date
-                                        id = (shop.takeLast(4))+(user.takeLast(4))
+                                        //random id generator
+                                        val rnds = (100000..99999999).random()
+                                        id = rnds.toString()
                                         tokenid.text = id
-
-
                                         //token number generation
                                         var maxToken:Int = 1
                                         firebaseFirestore.collection("token").whereEqualTo(
@@ -286,6 +313,16 @@ class landing : AppCompatActivity() {
                                                         bookMap["shop"] = shop
                                                         bookMap["user"] = user
 
+                                                        //code to add to local storage
+                                                        val preferences=getSharedPreferences(
+                                                            resources.getString(R.string.app_name),
+                                                            Context.MODE_PRIVATE
+                                                        )
+                                                        val editor=preferences.edit()
+                                                        editor.putString("tokenid", id)
+                                                        editor.putString("token", tokens)
+                                                        editor.putString("date", date)
+                                                        editor.apply()
                                                         //add to firebase
                                                         firebaseFirestore.collection("token")
                                                             .add(bookMap).addOnCompleteListener {
@@ -448,6 +485,7 @@ class landing : AppCompatActivity() {
         val editor=preferences.edit()
         editor.putBoolean("pinned", true)
         editor.apply()
+
     }
     private fun unPin(){
         Toast.makeText(this@landing, "Unpinned", Toast.LENGTH_SHORT).show()
@@ -490,6 +528,14 @@ class landing : AppCompatActivity() {
             .alpha(1f)
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
         Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
+        pin()
+
+        shop_search_editText.isEnabled = false
+        delete_red.animate()
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+        delete_red.isClickable = true
+
 
     }
     private fun authentication(){
@@ -518,6 +564,24 @@ class landing : AppCompatActivity() {
             pin.animate()
                 .alpha(1f)
                 .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+
+            //code to retrive data from local stroage
+            tokenid.text = preferencess.getString("tokenid","000000").toString()
+            var maxToken = (preferencess.getString("token","NULL"))?.toInt()
+
+            if (maxToken != null) {
+                if(maxToken < 10)
+                    token.text = "00$maxToken"
+                else if(maxToken<100)
+                    token.text = "0$maxToken"
+                else
+                    token.text = maxToken.toString()
+            }
+
+
+            tokentime.text = preferencess.getString("date","NULL")
+
+            var phone:String = preferencess.getString("phone", "0000000000").toString()
 
             pin()
         }
