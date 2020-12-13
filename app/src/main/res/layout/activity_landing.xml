@@ -319,7 +319,7 @@
         app:layout_constraintTop_toTopOf="@+id/search_bar"
         app:srcCompat="@drawable/ic_outline_delete_outline_24"
         app:tint="@color/black"
-        android:alpha="0.3"/>
+        android:alpha="0.2"/>
     <ImageView
         android:id="@+id/delete_red"
         android:layout_width="34dp"

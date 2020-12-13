@@ -191,31 +191,45 @@ class landing : AppCompatActivity() {
             }
         }
         delete_red.setOnClickListener{
-            shop_search_editText.isEnabled = true
-            delete_red.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-            delete_red.isClickable = false
 
-            tokenslip.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-            tokenid.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-            token.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-            tokentime.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-            pin.animate()
-                .alpha(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-            Toast.makeText(this@landing, "Token Deleted", Toast.LENGTH_SHORT).show()
-            unPin()
+            AlertDialog.Builder(this)
+                .setTitle("Delete Token")
+                .setMessage("Are you sure delete token ?")
+                .setPositiveButton(android.R.string.yes) { dialog, whichButton ->
+                    //code
+                    shop_search_editText.isEnabled = true
+                    delete_red.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                    delete_red.isClickable = false
 
-            shop_search_editText.text.clear()
+                    tokenslip.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                    tokenid.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                    token.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                    tokentime.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                    pin.animate()
+                        .alpha(0f)
+                        .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                    Toast.makeText(this@landing, "Token Deleted", Toast.LENGTH_SHORT).show()
+                    unPin()
+
+                    shop_search_editText.text.clear()
+                }
+                .setNegativeButton(android.R.string.cancel) { dialog, whichButton ->
+
+                }
+                .show()
+
+
+
         }
     }
 
