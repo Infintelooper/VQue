@@ -60,6 +60,8 @@ class landing : AppCompatActivity() {
         xToolbar.setTitle("")
         xToolbar.setSubtitle("")
 
+        delete_red.isEnabled  = false
+
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         //check if user login in, require for accessing database
         if(firebaseAuth.currentUser == null){
@@ -194,14 +196,14 @@ class landing : AppCompatActivity() {
 
             AlertDialog.Builder(this)
                 .setTitle("Delete Token")
-                .setMessage("Are you sure delete token ?")
+                .setMessage("Are you sure to delete token ?")
                 .setPositiveButton(android.R.string.yes) { dialog, whichButton ->
                     //code
                     shop_search_editText.isEnabled = true
                     delete_red.animate()
                         .alpha(0f)
                         .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-                    delete_red.isClickable = false
+                    delete_red.isEnabled = false
 
                     tokenslip.animate()
                         .alpha(0f)
@@ -548,7 +550,7 @@ class landing : AppCompatActivity() {
         delete_red.animate()
             .alpha(1f)
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
-        delete_red.isClickable = true
+        delete_red.isEnabled = true
 
 
     }
@@ -598,6 +600,13 @@ class landing : AppCompatActivity() {
             var phone:String = preferencess.getString("phone", "0000000000").toString()
 
             pin()
+
+            //code to enable delete button
+            shop_search_editText.isEnabled = false
+            delete_red.animate()
+                .alpha(1f)
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            delete_red.isEnabled = true
         }
         else{
             unPin()
