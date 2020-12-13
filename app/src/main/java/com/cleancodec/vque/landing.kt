@@ -197,7 +197,7 @@ class landing : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("Delete Token")
                 .setMessage("Are you sure to delete token ?")
-                .setPositiveButton(android.R.string.yes) { dialog, whichButton ->
+                .setPositiveButton(android.R.string.yes) { _, _ ->
                     //code
                     shop_search_editText.isEnabled = true
                     delete_red.animate()
@@ -384,6 +384,7 @@ class landing : AppCompatActivity() {
                         //code for change login status in local storage
                         notauthentication()
                         super.onBackPressed()
+                        unPin()
 
                         //clear local storage
                         val preferences: SharedPreferences =
@@ -582,8 +583,13 @@ class landing : AppCompatActivity() {
                 .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
 
             //code to retrive data from local stroage
+
             tokenid.text = preferencess.getString("tokenid","000000").toString()
-            var maxToken = (preferencess.getString("token","NULL"))?.toInt()
+            var maxTokens = (preferencess.getString("token","NULL"))
+            var maxToken = 1
+            if (maxTokens != null) {
+                maxToken  = maxTokens.toIntOrNull() ?: 1
+            }
 
             if (maxToken != null) {
                 if(maxToken < 10)
