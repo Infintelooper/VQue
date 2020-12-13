@@ -162,12 +162,13 @@ class landing : AppCompatActivity() {
             spin_kit.visibility = View.VISIBLE
 
             Handler().postDelayed({
-                Handler().postDelayed({
-                    makeSlipVisible()
-                }, 300)
+
                 //make loading invisible
                 spin_kit.visibility = View.INVISIBLE
-            }, 3000)
+            }, 4300)
+            Handler().postDelayed({
+                makeSlipVisible()
+            },4500)
 
         }
         authentication() // code for enable auto login
@@ -239,21 +240,7 @@ class landing : AppCompatActivity() {
                                         id = (shop.takeLast(4))+(user.takeLast(4))
                                         tokenid.text = id
 
-                                        //code to add to firestore
-                                        val bookMap = HashMap<String, Any>()
-                                        bookMap["id"] = id
-                                        bookMap["token"] = tokens
-                                        bookMap["date"] = date
-                                        bookMap["shop"] = shop
-                                        bookMap["user"] = user
 
-                                        //add to firebase
-                                        firebaseFirestore.collection("token").add(bookMap).addOnCompleteListener{
-                                            if(!it.isSuccessful){
-                                                Log.d(TAG, "Error: ${it.exception!!.message}")
-                                            }
-                                        }
-                                        //end of code
                                         //token number generation
                                         var maxToken:Int = 1
                                         firebaseFirestore.collection("token").whereEqualTo(
@@ -264,9 +251,20 @@ class landing : AppCompatActivity() {
                                             .addOnCompleteListener{
                                                 if (it.isSuccessful) {
                                                     for (document in it.result!!) {
-                                                        if (document.getString("date").toString() == date && maxToken < document.getString("token")!!.toInt()) {
-                                                            maxToken = document.getString("token")!!.toInt() + 1
-                                                            tokens = (document.getString("token")!!.toInt() + 1).toString()
+                                                        if (document.getString("date").toString() == date ){
+
+
+                                                            Log.i("token :",document.getString("token").toString())
+                                                            if(maxToken <= document.getString("token")!!.toInt()) {
+
+
+                                                                maxToken =
+                                                                    document.getString("token")!!
+                                                                        .toInt() + 1
+                                                                tokens =
+                                                                    (document.getString("token")!!
+                                                                        .toInt() + 1).toString()
+                                                            }
 
                                                         }
                                                     }
@@ -278,6 +276,28 @@ class landing : AppCompatActivity() {
                                                         token.text = maxToken.toString()
 
                                                     tokens = maxToken.toString()
+
+                                                    Handler().postDelayed({
+                                                        //code to add to firestore
+                                                        val bookMap = HashMap<String, Any>()
+                                                        bookMap["id"] = id
+                                                        bookMap["token"] = tokens
+                                                        bookMap["date"] = date
+                                                        bookMap["shop"] = shop
+                                                        bookMap["user"] = user
+
+                                                        //add to firebase
+                                                        firebaseFirestore.collection("token")
+                                                            .add(bookMap).addOnCompleteListener {
+                                                            if (!it.isSuccessful) {
+                                                                Log.d(
+                                                                    TAG,
+                                                                    "Error: ${it.exception!!.message}"
+                                                                )
+                                                            }
+                                                        }
+                                                        //end of code
+                                                    },2000)
                                                 }
 
                                             }

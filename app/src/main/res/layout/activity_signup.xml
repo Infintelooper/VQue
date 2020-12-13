@@ -54,17 +54,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="575dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="58dp"
-        android:text="SIGN UP"
         android:backgroundTint="@color/black"
+        android:text="SIGN UP"
         app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
         android:id="@+id/login_btn"
@@ -74,7 +71,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="680dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="50dp"
         android:text="SIGN IN"
@@ -83,8 +79,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp" />
 
@@ -93,18 +87,15 @@
         android:layout_width="345.43dp"
         android:layout_height="56dp"
         android:layout_alignParentLeft="true"
-        android:alpha="0.5"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="320dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="20dp"
+        android:alpha="0.5"
         android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/email_txt_b"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.961" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <ImageView
         android:id="@+id/password_txt_b"
@@ -113,17 +104,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="465dp"
         android:layout_marginEnd="12dp"
-        android:alpha="0.5"
         android:layout_marginBottom="32dp"
+        android:alpha="0.5"
         android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
 
     <ImageView
@@ -133,16 +121,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="400dp"
-        android:alpha="0.5"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="20dp"
+        android:alpha="0.5"
         android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/password_txt_b"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <ImageView
         android:id="@+id/seperator"

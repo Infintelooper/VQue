@@ -54,18 +54,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="560dp"
         android:layout_marginEnd="12dp"
-        android:clickable="false"
         android:layout_marginBottom="68dp"
-        android:text="SIGN IN"
         android:backgroundTint="@color/black"
+        android:clickable="false"
+        android:text="SIGN IN"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
 
     <Button
@@ -75,15 +72,12 @@
         android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="650dp"
         android:layout_marginBottom="50dp"
         android:text="SIGN UP"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp" />
 
@@ -94,16 +88,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="400dp"
-        android:alpha="0.5"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
+        android:alpha="0.5"
         android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/password_txt_b"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progressBarPhone"
@@ -121,8 +112,6 @@
         app:layout_constraintVertical_bias="0.333" />
 
 
-
-
     <ImageView
         android:id="@+id/password_txt_b"
         android:layout_width="345.43dp"
@@ -130,16 +119,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="460dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
         android:alpha="0.5"
         android:background="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <ImageView
         android:id="@+id/seperator"
