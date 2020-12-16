@@ -145,13 +145,13 @@
         android:layout_marginEnd="19dp"
         android:alpha="0"
         android:clickable="false"
-        android:enabled = "false"
+        android:enabled="false"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.025"
+        app:layout_constraintVertical_bias="0.001"
         app:srcCompat="@drawable/ic_notification_btn" />
 
     <ImageView

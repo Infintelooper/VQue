@@ -50,16 +50,14 @@
         android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
 
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="28dp"
         android:backgroundTint="@color/black"
 
         android:text="SIGN IN"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         tools:ignore="HardcodedText" />
 
@@ -70,14 +68,11 @@
         android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginBottom="50dp"
         android:text="SIGN UP"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp"

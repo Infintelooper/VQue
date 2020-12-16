@@ -73,18 +73,6 @@ class landing : AppCompatActivity() {
             }
         }
 
-        notification_btn.setOnClickListener {
-            if(notification_panel.alpha == 0f){
-                notification_panel.animate()
-                    .alpha(1f)
-                    .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            }
-            else{
-                notification_panel.animate()
-                    .alpha(0f)
-                    .setInterpolator(AccelerateDecelerateInterpolator()).duration = 100
-            }
-        }
 
         //Setup recycler view
         search_list.hasFixedSize()
@@ -490,7 +478,7 @@ class landing : AppCompatActivity() {
 
 
     private fun pin(){
-        Toast.makeText(this@landing, "Pinned", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this@landing, "Pinned", Toast.LENGTH_SHORT).show()
 
         //change image
         pin.setImageResource(R.drawable.ic_round_push_pin_24)
@@ -505,7 +493,7 @@ class landing : AppCompatActivity() {
 
     }
     private fun unPin(){
-        Toast.makeText(this@landing, "Unpinned", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this@landing, "Unpinned", Toast.LENGTH_SHORT).show()
 
         //change image
         pin.setImageResource(R.drawable.ic_outline_push_pin_24)
@@ -531,26 +519,26 @@ class landing : AppCompatActivity() {
         //token generation code
         tokenslip.animate()
             .alpha(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
         tokenid.animate()
             .alpha(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
         token.animate()
             .alpha(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
         tokentime.animate()
             .alpha(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
         pin.animate()
             .alpha(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
         Toast.makeText(this@landing, "successfully generated", Toast.LENGTH_SHORT).show()
         pin()
 
         shop_search_editText.isEnabled = false
         delete_red.animate()
             .alpha(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
         delete_red.isEnabled = true
 
 
@@ -563,24 +551,24 @@ class landing : AppCompatActivity() {
             resources.getString(R.string.app_name),
             Context.MODE_PRIVATE
         )
-        if (preferencess.getBoolean("pinned", true)){
+        if (preferencess.getBoolean("pinned", false)){
 
             //make slip visible
             tokenslip.animate()
                 .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
             tokenid.animate()
                 .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
             token.animate()
                 .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
             tokentime.animate()
                 .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
             pin.animate()
                 .alpha(1f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 200
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 250
 
             //code to retrive data from local stroage
 
